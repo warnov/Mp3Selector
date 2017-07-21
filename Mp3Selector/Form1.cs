@@ -9,7 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Id3;
 using Newtonsoft.Json;
+using Id3.Info;
 
 namespace Mp3Selector
 {
@@ -25,6 +27,7 @@ namespace Mp3Selector
         const string SELLIB = "selectedLibrary.txt";
         const string DISLIB = "discardedLibrary.txt";
         bool newSong = false;
+        bool auto = false;
         int index;
 
 
@@ -32,7 +35,7 @@ namespace Mp3Selector
         public Form1()
         {
             InitializeComponent();
-            LoadLibrary();
+            LoadLibraries();
         }
         #endregion
 
@@ -48,8 +51,10 @@ namespace Mp3Selector
 
         private void btnStop_Click(object sender, EventArgs e)
         {
+            auto = false;
             ManualStop();
-            tmrMain.Enabled = false;
+            tmrMain.Enabled = false;           
+            tssMain.Text = "Ready";
         }
 
         private void btnBuildLibrary_Click(object sender, EventArgs e)
@@ -71,10 +76,9 @@ namespace Mp3Selector
 
         private void btnDislike_Click(object sender, EventArgs e)
         {
-            newSong = false;
-            lblDiscarded.Text = Path.GetFileNameWithoutExtension(currentLibrary[index]);
-            ManualStop();           
-            discardedLibrary.Add(currentLibrary[index]);
+            newSong = false;            
+            ManualStop();
+            discardedLibrary.Add(CurrentPath);
             currentLibrary.RemoveAt(index);
             WriteLibraries();
             PlayNext();
@@ -84,6 +88,7 @@ namespace Mp3Selector
         {
             wmpMain.Ctlcontrols.play();
             newSong = true;
+            auto = true;
         }
 
         private void btnPlayerStatus_Click(object sender, EventArgs e)
@@ -109,24 +114,15 @@ namespace Mp3Selector
         private void wmpMain_PlayStateChange(object sender,
             AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            if (wmpMain.playState == WMPLib.WMPPlayState.wmppsStopped && newSong)
+            if (wmpMain.playState == WMPLib.WMPPlayState.wmppsStopped && newSong && auto)
             {
                 LikeNext();
             }
         }
 
-        private void LikeNext()
-        {
-            newSong = false;
-            selectedLibrary.Add(currentLibrary[index]);
-            currentLibrary.RemoveAt(index);
-            WriteLibraries();
-            PlayNext();
-        }
-
         private void tmrMain_Tick(object sender, EventArgs e)
         {
-            if (wmpMain.playState == WMPLib.WMPPlayState.wmppsReady||
+            if (wmpMain.playState == WMPLib.WMPPlayState.wmppsReady ||
                 wmpMain.playState == WMPLib.WMPPlayState.wmppsStopped)
             {
                 wmpMain.Ctlcontrols.play();
@@ -139,6 +135,9 @@ namespace Mp3Selector
                 tssMain.Text = $"Playing - {timing}";
             }
             else tssMain.Text = $"Ready";
+            var processed = selectedLibrary.Count + discardedLibrary.Count;
+            var total = processed + currentLibrary.Count;
+            tssCount.Text = $"{ processed}/{total} processed.";
         }
 
 
@@ -149,17 +148,26 @@ namespace Mp3Selector
 
 
         private void PlayNext()
-        {           
+        {
             var length = currentLibrary.Count;
             var rnd = new Random();
-            index = rnd.Next(length);
-            var trackPath = currentLibrary[index];
-            wmpMain.URL = trackPath;          
-            lblTrack.Text = Path.GetFileNameWithoutExtension(trackPath);
+            index = rnd.Next(length);          
+            wmpMain.URL = CurrentPath;
+            AssembleTitle();
+            //lblTrack.Text = Path.GetFileNameWithoutExtension(trackPath);
+        }
+
+        private void LikeNext()
+        {
+            newSong = false;
+            selectedLibrary.Add(CurrentPath);
+            currentLibrary.RemoveAt(index);
+            WriteLibraries();
+            PlayNext();
         }
 
         private void ManualStop()
-        {          
+        {
             wmpMain.Ctlcontrols.stop();
             newSong = false;
         }
@@ -185,8 +193,7 @@ namespace Mp3Selector
                     foreach (string f in Directory.GetFiles(d))
                     {
                         if (f.ToLower().Contains("mp3"))
-                        {
-                            lblTrack.Text = f;
+                        {                           
                             library.Add(f);
                         }
                     }
@@ -200,7 +207,7 @@ namespace Mp3Selector
 
         }
 
-        private void LoadLibrary()
+        private void LoadLibraries()
         {
             var fileName = $"{LIBPATH}{CURLIB}";
             if (File.Exists(fileName))
@@ -216,6 +223,22 @@ namespace Mp3Selector
                 discardedLibrary = JsonConvert.DeserializeObject<List<string>>(json);
             }
             else MessageBox.Show("You must build a library first");
+        }
+
+        private string CurrentPath
+        {
+            get
+            {
+                return currentLibrary[index];
+            }
+        }
+
+        private void AssembleTitle()
+        {
+            var mp3 = new Mp3File(CurrentPath);
+            Id3Tag tag = mp3.GetTag(Id3TagFamily.FileStartTag);
+            lblTrack.Text = tag.Title;
+            lblArtistAlbum.Text = $"{tag.Artists.Value} ({tag.Album})";
         }
         #endregion
 

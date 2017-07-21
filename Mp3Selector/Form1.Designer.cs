@@ -43,6 +43,8 @@
             this.sstMain = new System.Windows.Forms.StatusStrip();
             this.tssMain = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnHop = new System.Windows.Forms.Button();
+            this.lblArtistAlbum = new System.Windows.Forms.Label();
+            this.tssCount = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.wmpMain)).BeginInit();
             this.sstMain.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +63,7 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(33, 61);
+            this.btnPlay.Location = new System.Drawing.Point(33, 94);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(75, 23);
             this.btnPlay.TabIndex = 1;
@@ -71,7 +73,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(33, 90);
+            this.btnStop.Location = new System.Drawing.Point(33, 123);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 2;
@@ -81,7 +83,7 @@
             // 
             // btnLibrary
             // 
-            this.btnLibrary.Location = new System.Drawing.Point(160, 172);
+            this.btnLibrary.Location = new System.Drawing.Point(261, 205);
             this.btnLibrary.Name = "btnLibrary";
             this.btnLibrary.Size = new System.Drawing.Size(75, 23);
             this.btnLibrary.TabIndex = 3;
@@ -92,15 +94,15 @@
             // lblTrack
             // 
             this.lblTrack.AutoSize = true;
+            this.lblTrack.Font = new System.Drawing.Font("OCR A Extended", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTrack.Location = new System.Drawing.Point(30, 19);
             this.lblTrack.Name = "lblTrack";
-            this.lblTrack.Size = new System.Drawing.Size(49, 13);
+            this.lblTrack.Size = new System.Drawing.Size(0, 24);
             this.lblTrack.TabIndex = 4;
-            this.lblTrack.Text = "trackInfo";
             // 
             // btnLikeNext
             // 
-            this.btnLikeNext.Location = new System.Drawing.Point(33, 143);
+            this.btnLikeNext.Location = new System.Drawing.Point(33, 176);
             this.btnLikeNext.Name = "btnLikeNext";
             this.btnLikeNext.Size = new System.Drawing.Size(75, 23);
             this.btnLikeNext.TabIndex = 5;
@@ -110,7 +112,7 @@
             // 
             // btnDislike
             // 
-            this.btnDislike.Location = new System.Drawing.Point(33, 172);
+            this.btnDislike.Location = new System.Drawing.Point(33, 205);
             this.btnDislike.Name = "btnDislike";
             this.btnDislike.Size = new System.Drawing.Size(75, 23);
             this.btnDislike.TabIndex = 6;
@@ -128,7 +130,7 @@
             // 
             // btnJump
             // 
-            this.btnJump.Location = new System.Drawing.Point(160, 61);
+            this.btnJump.Location = new System.Drawing.Point(261, 94);
             this.btnJump.Name = "btnJump";
             this.btnJump.Size = new System.Drawing.Size(75, 23);
             this.btnJump.TabIndex = 11;
@@ -144,10 +146,11 @@
             // sstMain
             // 
             this.sstMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tssMain});
+            this.tssMain,
+            this.tssCount});
             this.sstMain.Location = new System.Drawing.Point(0, 261);
             this.sstMain.Name = "sstMain";
-            this.sstMain.Size = new System.Drawing.Size(288, 22);
+            this.sstMain.Size = new System.Drawing.Size(364, 22);
             this.sstMain.TabIndex = 13;
             this.sstMain.Text = "Ready";
             // 
@@ -159,7 +162,7 @@
             // 
             // btnHop
             // 
-            this.btnHop.Location = new System.Drawing.Point(160, 90);
+            this.btnHop.Location = new System.Drawing.Point(261, 123);
             this.btnHop.Name = "btnHop";
             this.btnHop.Size = new System.Drawing.Size(75, 23);
             this.btnHop.TabIndex = 14;
@@ -167,11 +170,25 @@
             this.btnHop.UseVisualStyleBackColor = true;
             this.btnHop.Click += new System.EventHandler(this.btnHop_Click);
             // 
+            // lblArtistAlbum
+            // 
+            this.lblArtistAlbum.AutoSize = true;
+            this.lblArtistAlbum.Location = new System.Drawing.Point(31, 55);
+            this.lblArtistAlbum.Name = "lblArtistAlbum";
+            this.lblArtistAlbum.Size = new System.Drawing.Size(0, 13);
+            this.lblArtistAlbum.TabIndex = 15;
+            // 
+            // tssCount
+            // 
+            this.tssCount.Name = "tssCount";
+            this.tssCount.Size = new System.Drawing.Size(0, 17);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(288, 283);
+            this.ClientSize = new System.Drawing.Size(364, 283);
+            this.Controls.Add(this.lblArtistAlbum);
             this.Controls.Add(this.btnHop);
             this.Controls.Add(this.sstMain);
             this.Controls.Add(this.btnJump);
@@ -184,7 +201,7 @@
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.wmpMain);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Mp3Ranker";
             ((System.ComponentModel.ISupportInitialize)(this.wmpMain)).EndInit();
             this.sstMain.ResumeLayout(false);
             this.sstMain.PerformLayout();
@@ -208,6 +225,8 @@
         private System.Windows.Forms.StatusStrip sstMain;
         private System.Windows.Forms.ToolStripStatusLabel tssMain;
         private System.Windows.Forms.Button btnHop;
+        private System.Windows.Forms.Label lblArtistAlbum;
+        private System.Windows.Forms.ToolStripStatusLabel tssCount;
     }
 }
 
