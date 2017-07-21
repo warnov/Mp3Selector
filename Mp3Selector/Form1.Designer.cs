@@ -28,26 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.wmpMain = new AxWMPLib.AxWindowsMediaPlayer();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnLibrary = new System.Windows.Forms.Button();
             this.lblTrack = new System.Windows.Forms.Label();
-            this.btnLoadLibrary = new System.Windows.Forms.Button();
+            this.btnLikeNext = new System.Windows.Forms.Button();
             this.btnDislike = new System.Windows.Forms.Button();
             this.lblDiscarded = new System.Windows.Forms.Label();
-            this.btnPlayerStatus = new System.Windows.Forms.Button();
-            this.btnPlainPlay = new System.Windows.Forms.Button();
-            this.btnPosition = new System.Windows.Forms.Button();
             this.btnJump = new System.Windows.Forms.Button();
+            this.tmrMain = new System.Windows.Forms.Timer(this.components);
+            this.sstMain = new System.Windows.Forms.StatusStrip();
+            this.tssMain = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnHop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.wmpMain)).BeginInit();
+            this.sstMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // wmpMain
             // 
             this.wmpMain.Enabled = true;
-            this.wmpMain.Location = new System.Drawing.Point(197, 218);
+            this.wmpMain.Location = new System.Drawing.Point(555, 240);
             this.wmpMain.Name = "wmpMain";
             this.wmpMain.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("wmpMain.OcxState")));
             this.wmpMain.Size = new System.Drawing.Size(75, 23);
@@ -68,7 +71,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(160, 61);
+            this.btnStop.Location = new System.Drawing.Point(33, 90);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 2;
@@ -78,36 +81,36 @@
             // 
             // btnLibrary
             // 
-            this.btnLibrary.Location = new System.Drawing.Point(160, 189);
+            this.btnLibrary.Location = new System.Drawing.Point(160, 172);
             this.btnLibrary.Name = "btnLibrary";
             this.btnLibrary.Size = new System.Drawing.Size(75, 23);
             this.btnLibrary.TabIndex = 3;
             this.btnLibrary.Text = "build library";
             this.btnLibrary.UseVisualStyleBackColor = true;
-            this.btnLibrary.Click += new System.EventHandler(this.btnLibrary_Click);
+            this.btnLibrary.Click += new System.EventHandler(this.btnBuildLibrary_Click);
             // 
             // lblTrack
             // 
             this.lblTrack.AutoSize = true;
-            this.lblTrack.Location = new System.Drawing.Point(30, 129);
+            this.lblTrack.Location = new System.Drawing.Point(30, 19);
             this.lblTrack.Name = "lblTrack";
-            this.lblTrack.Size = new System.Drawing.Size(35, 13);
+            this.lblTrack.Size = new System.Drawing.Size(49, 13);
             this.lblTrack.TabIndex = 4;
-            this.lblTrack.Text = "label1";
+            this.lblTrack.Text = "trackInfo";
             // 
-            // btnLoadLibrary
+            // btnLikeNext
             // 
-            this.btnLoadLibrary.Location = new System.Drawing.Point(33, 189);
-            this.btnLoadLibrary.Name = "btnLoadLibrary";
-            this.btnLoadLibrary.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadLibrary.TabIndex = 5;
-            this.btnLoadLibrary.Text = "load library";
-            this.btnLoadLibrary.UseVisualStyleBackColor = true;
-            this.btnLoadLibrary.Click += new System.EventHandler(this.btnLoadLibrary_Click);
+            this.btnLikeNext.Location = new System.Drawing.Point(33, 143);
+            this.btnLikeNext.Name = "btnLikeNext";
+            this.btnLikeNext.Size = new System.Drawing.Size(75, 23);
+            this.btnLikeNext.TabIndex = 5;
+            this.btnLikeNext.Text = "like but next";
+            this.btnLikeNext.UseVisualStyleBackColor = true;
+            this.btnLikeNext.Click += new System.EventHandler(this.btnLikeNext_Click);
             // 
             // btnDislike
             // 
-            this.btnDislike.Location = new System.Drawing.Point(33, 226);
+            this.btnDislike.Location = new System.Drawing.Point(33, 172);
             this.btnDislike.Name = "btnDislike";
             this.btnDislike.Size = new System.Drawing.Size(75, 23);
             this.btnDislike.TabIndex = 6;
@@ -123,39 +126,9 @@
             this.lblDiscarded.Size = new System.Drawing.Size(0, 13);
             this.lblDiscarded.TabIndex = 7;
             // 
-            // btnPlayerStatus
-            // 
-            this.btnPlayerStatus.Location = new System.Drawing.Point(287, 61);
-            this.btnPlayerStatus.Name = "btnPlayerStatus";
-            this.btnPlayerStatus.Size = new System.Drawing.Size(75, 23);
-            this.btnPlayerStatus.TabIndex = 8;
-            this.btnPlayerStatus.Text = "status";
-            this.btnPlayerStatus.UseVisualStyleBackColor = true;
-            this.btnPlayerStatus.Click += new System.EventHandler(this.btnPlayerStatus_Click);
-            // 
-            // btnPlainPlay
-            // 
-            this.btnPlainPlay.Location = new System.Drawing.Point(33, 90);
-            this.btnPlainPlay.Name = "btnPlainPlay";
-            this.btnPlainPlay.Size = new System.Drawing.Size(75, 23);
-            this.btnPlainPlay.TabIndex = 9;
-            this.btnPlainPlay.Text = "plainPlay";
-            this.btnPlainPlay.UseVisualStyleBackColor = true;
-            this.btnPlainPlay.Click += new System.EventHandler(this.btnPlainPlay_Click);
-            // 
-            // btnPosition
-            // 
-            this.btnPosition.Location = new System.Drawing.Point(287, 90);
-            this.btnPosition.Name = "btnPosition";
-            this.btnPosition.Size = new System.Drawing.Size(75, 23);
-            this.btnPosition.TabIndex = 10;
-            this.btnPosition.Text = "position";
-            this.btnPosition.UseVisualStyleBackColor = true;
-            this.btnPosition.Click += new System.EventHandler(this.btnPosition_Click);
-            // 
             // btnJump
             // 
-            this.btnJump.Location = new System.Drawing.Point(160, 90);
+            this.btnJump.Location = new System.Drawing.Point(160, 61);
             this.btnJump.Name = "btnJump";
             this.btnJump.Size = new System.Drawing.Size(75, 23);
             this.btnJump.TabIndex = 11;
@@ -163,18 +136,48 @@
             this.btnJump.UseVisualStyleBackColor = true;
             this.btnJump.Click += new System.EventHandler(this.btnJump_Click);
             // 
+            // tmrMain
+            // 
+            this.tmrMain.Interval = 1000;
+            this.tmrMain.Tick += new System.EventHandler(this.tmrMain_Tick);
+            // 
+            // sstMain
+            // 
+            this.sstMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tssMain});
+            this.sstMain.Location = new System.Drawing.Point(0, 261);
+            this.sstMain.Name = "sstMain";
+            this.sstMain.Size = new System.Drawing.Size(288, 22);
+            this.sstMain.TabIndex = 13;
+            this.sstMain.Text = "Ready";
+            // 
+            // tssMain
+            // 
+            this.tssMain.Name = "tssMain";
+            this.tssMain.Size = new System.Drawing.Size(39, 17);
+            this.tssMain.Text = "Ready";
+            // 
+            // btnHop
+            // 
+            this.btnHop.Location = new System.Drawing.Point(160, 90);
+            this.btnHop.Name = "btnHop";
+            this.btnHop.Size = new System.Drawing.Size(75, 23);
+            this.btnHop.TabIndex = 14;
+            this.btnHop.Text = "hop";
+            this.btnHop.UseVisualStyleBackColor = true;
+            this.btnHop.Click += new System.EventHandler(this.btnHop_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 288);
+            this.ClientSize = new System.Drawing.Size(288, 283);
+            this.Controls.Add(this.btnHop);
+            this.Controls.Add(this.sstMain);
             this.Controls.Add(this.btnJump);
-            this.Controls.Add(this.btnPosition);
-            this.Controls.Add(this.btnPlainPlay);
-            this.Controls.Add(this.btnPlayerStatus);
             this.Controls.Add(this.lblDiscarded);
             this.Controls.Add(this.btnDislike);
-            this.Controls.Add(this.btnLoadLibrary);
+            this.Controls.Add(this.btnLikeNext);
             this.Controls.Add(this.lblTrack);
             this.Controls.Add(this.btnLibrary);
             this.Controls.Add(this.btnStop);
@@ -183,6 +186,8 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.wmpMain)).EndInit();
+            this.sstMain.ResumeLayout(false);
+            this.sstMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,13 +200,14 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnLibrary;
         private System.Windows.Forms.Label lblTrack;
-        private System.Windows.Forms.Button btnLoadLibrary;
+        private System.Windows.Forms.Button btnLikeNext;
         private System.Windows.Forms.Button btnDislike;
         private System.Windows.Forms.Label lblDiscarded;
-        private System.Windows.Forms.Button btnPlayerStatus;
-        private System.Windows.Forms.Button btnPlainPlay;
-        private System.Windows.Forms.Button btnPosition;
         private System.Windows.Forms.Button btnJump;
+        private System.Windows.Forms.Timer tmrMain;
+        private System.Windows.Forms.StatusStrip sstMain;
+        private System.Windows.Forms.ToolStripStatusLabel tssMain;
+        private System.Windows.Forms.Button btnHop;
     }
 }
 
