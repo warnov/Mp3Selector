@@ -42,14 +42,16 @@ namespace Mp3Selector
 
         #region Events
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private void BtnPlay_Click(object sender, EventArgs e)
         {
             tmrMain.Enabled = true;
             newSong = true;
+            auto = true;
             PlayNext();
+
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
+        private void BtnStop_Click(object sender, EventArgs e)
         {
             auto = false;
             ManualStop();
@@ -57,7 +59,7 @@ namespace Mp3Selector
             tssMain.Text = "Ready";
         }
 
-        private void btnBuildLibrary_Click(object sender, EventArgs e)
+        private void BtnBuildLibrary_Click(object sender, EventArgs e)
         {
             currentLibrary = new List<string>();
             selectedLibrary = new List<string>();
@@ -67,14 +69,14 @@ namespace Mp3Selector
             MessageBox.Show("Library Created and Written!");
         }
 
-        private void btnLikeNext_Click(object sender, EventArgs e)
+        private void BtnLikeNext_Click(object sender, EventArgs e)
         {
             newSong = false;
             ManualStop();
             LikeNext();
         }
 
-        private void btnDislike_Click(object sender, EventArgs e)
+        private void BtnDislike_Click(object sender, EventArgs e)
         {
             newSong = false;            
             ManualStop();
@@ -84,34 +86,34 @@ namespace Mp3Selector
             PlayNext();
         }
 
-        private void btnPlainPlay_Click(object sender, EventArgs e)
+        private void BtnPlainPlay_Click(object sender, EventArgs e)
         {
             wmpMain.Ctlcontrols.play();
             newSong = true;
             auto = true;
         }
 
-        private void btnPlayerStatus_Click(object sender, EventArgs e)
+        private void BtnPlayerStatus_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"Estado: {wmpMain.playState}");
         }
 
-        private void btnPosition_Click(object sender, EventArgs e)
+        private void BtnPosition_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"Posición: {wmpMain.Ctlcontrols.currentPosition} de {wmpMain.currentMedia.duration}");
         }
 
-        private void btnJump_Click(object sender, EventArgs e)
+        private void BtnJump_Click(object sender, EventArgs e)
         {
             wmpMain.Ctlcontrols.currentPosition += 60;
         }
 
-        private void btnHop_Click(object sender, EventArgs e)
+        private void BtnHop_Click(object sender, EventArgs e)
         {
             wmpMain.Ctlcontrols.currentPosition += 30;
         }
 
-        private void wmpMain_PlayStateChange(object sender,
+        private void WmpMain_PlayStateChange(object sender,
             AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             if (wmpMain.playState == WMPLib.WMPPlayState.wmppsStopped && newSong && auto)
@@ -120,11 +122,12 @@ namespace Mp3Selector
             }
         }
 
-        private void tmrMain_Tick(object sender, EventArgs e)
+        private void TmrMain_Tick(object sender, EventArgs e)
         {
             if (wmpMain.playState == WMPLib.WMPPlayState.wmppsReady ||
                 wmpMain.playState == WMPLib.WMPPlayState.wmppsStopped)
             {
+                Thread.Sleep(3000);
                 wmpMain.Ctlcontrols.play();
                 newSong = true;
             }
@@ -236,9 +239,17 @@ namespace Mp3Selector
         private void AssembleTitle()
         {
             var mp3 = new Mp3File(CurrentPath);
-            Id3Tag tag = mp3.GetTag(Id3TagFamily.FileStartTag);
-            lblTrack.Text = tag.Title;
-            lblArtistAlbum.Text = $"{tag.Artists.Value} ({tag.Album})";
+            try
+            {
+                Id3Tag tag = mp3.GetTag(Id3TagFamily.FileStartTag);
+                lblTrack.Text = tag.Title;
+                lblArtistAlbum.Text = $"{tag.Artists.Value} ({tag.Album})";
+            }
+            catch
+            {
+                lblTrack.Text = "!";
+                lblArtistAlbum.Text = CurrentPath;
+            }
         }
         #endregion
 

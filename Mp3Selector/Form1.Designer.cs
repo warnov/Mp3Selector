@@ -59,7 +59,7 @@
             this.wmpMain.TabIndex = 0;
             this.wmpMain.UseWaitCursor = true;
             this.wmpMain.Visible = false;
-            this.wmpMain.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.wmpMain_PlayStateChange);
+            this.wmpMain.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.WmpMain_PlayStateChange);
             // 
             // btnPlay
             // 
@@ -69,7 +69,7 @@
             this.btnPlay.TabIndex = 1;
             this.btnPlay.Text = "play";
             this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            this.btnPlay.Click += new System.EventHandler(this.BtnPlay_Click);
             // 
             // btnStop
             // 
@@ -79,7 +79,7 @@
             this.btnStop.TabIndex = 2;
             this.btnStop.Text = "stop";
             this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStop.Click += new System.EventHandler(this.BtnStop_Click);
             // 
             // btnLibrary
             // 
@@ -89,7 +89,7 @@
             this.btnLibrary.TabIndex = 3;
             this.btnLibrary.Text = "build library";
             this.btnLibrary.UseVisualStyleBackColor = true;
-            this.btnLibrary.Click += new System.EventHandler(this.btnBuildLibrary_Click);
+            this.btnLibrary.Click += new System.EventHandler(this.BtnBuildLibrary_Click);
             // 
             // lblTrack
             // 
@@ -108,7 +108,7 @@
             this.btnLikeNext.TabIndex = 5;
             this.btnLikeNext.Text = "like but next";
             this.btnLikeNext.UseVisualStyleBackColor = true;
-            this.btnLikeNext.Click += new System.EventHandler(this.btnLikeNext_Click);
+            this.btnLikeNext.Click += new System.EventHandler(this.BtnLikeNext_Click);
             // 
             // btnDislike
             // 
@@ -118,7 +118,7 @@
             this.btnDislike.TabIndex = 6;
             this.btnDislike.Text = "don\'t like";
             this.btnDislike.UseVisualStyleBackColor = true;
-            this.btnDislike.Click += new System.EventHandler(this.btnDislike_Click);
+            this.btnDislike.Click += new System.EventHandler(this.BtnDislike_Click);
             // 
             // lblDiscarded
             // 
@@ -136,12 +136,12 @@
             this.btnJump.TabIndex = 11;
             this.btnJump.Text = "jump";
             this.btnJump.UseVisualStyleBackColor = true;
-            this.btnJump.Click += new System.EventHandler(this.btnJump_Click);
+            this.btnJump.Click += new System.EventHandler(this.BtnJump_Click);
             // 
             // tmrMain
             // 
             this.tmrMain.Interval = 1000;
-            this.tmrMain.Tick += new System.EventHandler(this.tmrMain_Tick);
+            this.tmrMain.Tick += new System.EventHandler(this.TmrMain_Tick);
             // 
             // sstMain
             // 
@@ -168,7 +168,7 @@
             this.btnHop.TabIndex = 14;
             this.btnHop.Text = "hop";
             this.btnHop.UseVisualStyleBackColor = true;
-            this.btnHop.Click += new System.EventHandler(this.btnHop_Click);
+            this.btnHop.Click += new System.EventHandler(this.BtnHop_Click);
             // 
             // lblArtistAlbum
             // 
