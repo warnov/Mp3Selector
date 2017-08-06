@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Id3;
 using Newtonsoft.Json;
-using Id3.Info;
+using TagLib.Id3v2;
 
 namespace Mp3Selector
 {
-    public partial class Form1 : Form
+    public partial class FrmMain : Form
     {
 
         #region Class Definition
@@ -28,11 +20,13 @@ namespace Mp3Selector
         const string DISLIB = "discardedLibrary.txt";
         bool newSong = false;
         bool auto = false;
-        int index;
+        int index = -1;
+        int stars = 0;
+        string oldPath;
 
 
 
-        public Form1()
+        public FrmMain()
         {
             InitializeComponent();
             LoadLibraries();
@@ -55,7 +49,7 @@ namespace Mp3Selector
         {
             auto = false;
             ManualStop();
-            tmrMain.Enabled = false;           
+            tmrMain.Enabled = false;
             tssMain.Text = "Ready";
         }
 
@@ -71,19 +65,19 @@ namespace Mp3Selector
 
         private void BtnLikeNext_Click(object sender, EventArgs e)
         {
+            LikeNext();
             newSong = false;
             ManualStop();
-            LikeNext();
         }
 
         private void BtnDislike_Click(object sender, EventArgs e)
         {
-            newSong = false;            
-            ManualStop();
             discardedLibrary.Add(CurrentPath);
             currentLibrary.RemoveAt(index);
-            WriteLibraries();
             PlayNext();
+            newSong = false;
+            ManualStop();
+            WriteLibraries();
         }
 
         private void BtnPlainPlay_Click(object sender, EventArgs e)
@@ -91,16 +85,6 @@ namespace Mp3Selector
             wmpMain.Ctlcontrols.play();
             newSong = true;
             auto = true;
-        }
-
-        private void BtnPlayerStatus_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show($"Estado: {wmpMain.playState}");
-        }
-
-        private void BtnPosition_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show($"Posición: {wmpMain.Ctlcontrols.currentPosition} de {wmpMain.currentMedia.duration}");
         }
 
         private void BtnJump_Click(object sender, EventArgs e)
@@ -127,7 +111,6 @@ namespace Mp3Selector
             if (wmpMain.playState == WMPLib.WMPPlayState.wmppsReady ||
                 wmpMain.playState == WMPLib.WMPPlayState.wmppsStopped)
             {
-                Thread.Sleep(3000);
                 wmpMain.Ctlcontrols.play();
                 newSong = true;
             }
@@ -143,6 +126,38 @@ namespace Mp3Selector
             tssCount.Text = $"{ processed}/{total} processed.";
         }
 
+        #region SetStars
+        private void Btn1Star_Click(object sender, EventArgs e)
+        {
+            stars = 1;
+            lblStarts.Text = stars.ToString();
+        }
+
+        private void Btn2Stars_Click(object sender, EventArgs e)
+        {
+            stars = 2;
+            lblStarts.Text = stars.ToString();
+        }
+
+        private void Btn3Stars_Click(object sender, EventArgs e)
+        {
+            stars = 3;
+            lblStarts.Text = stars.ToString();
+        }
+
+        private void Btn4Stars_Click(object sender, EventArgs e)
+        {
+            stars = 4;
+            lblStarts.Text = stars.ToString();
+        }
+
+        private void Btn5Stars_Click(object sender, EventArgs e)
+        {
+            stars = 5;
+            lblStarts.Text = stars.ToString();
+        }
+        #endregion
+
 
         #endregion
 
@@ -152,17 +167,18 @@ namespace Mp3Selector
 
         private void PlayNext()
         {
-            var length = currentLibrary.Count;
+            var length = currentLibrary.Count;            
             var rnd = new Random();
-            index = rnd.Next(length);          
+            index = rnd.Next(length);
             wmpMain.URL = CurrentPath;
+            if (!string.IsNullOrEmpty(oldPath)) SetStars(oldPath);
             AssembleTitle();
-            //lblTrack.Text = Path.GetFileNameWithoutExtension(trackPath);
         }
 
         private void LikeNext()
         {
             newSong = false;
+            oldPath = index >= 0 ? CurrentPath : string.Empty;
             selectedLibrary.Add(CurrentPath);
             currentLibrary.RemoveAt(index);
             WriteLibraries();
@@ -196,7 +212,7 @@ namespace Mp3Selector
                     foreach (string f in Directory.GetFiles(d))
                     {
                         if (f.ToLower().Contains("mp3"))
-                        {                           
+                        {
                             library.Add(f);
                         }
                     }
@@ -238,12 +254,14 @@ namespace Mp3Selector
 
         private void AssembleTitle()
         {
-            var mp3 = new Mp3File(CurrentPath);
             try
             {
-                Id3Tag tag = mp3.GetTag(Id3TagFamily.FileStartTag);
+                var MP3 = TagLib.File.Create(CurrentPath);
+                var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
                 lblTrack.Text = tag.Title;
-                lblArtistAlbum.Text = $"{tag.Artists.Value} ({tag.Album})";
+                lblArtistAlbum.Text = $"{tag.Artists[0]} ({tag.Album})";
+                lblStarts.Text = Stars;
+                MP3.Dispose();
             }
             catch
             {
@@ -251,8 +269,94 @@ namespace Mp3Selector
                 lblArtistAlbum.Text = CurrentPath;
             }
         }
+
+        private string Stars
+        {
+            //unrated=0, 1=1-63, 2=64-127, 3=128-191, 4=192-254, 5=255           
+            get
+            {
+                var MP3 = TagLib.File.Create(CurrentPath);
+                var tag = (TagLib.Id3v2.Tag)MP3.GetTag(TagLib.TagTypes.Id3v2);
+                var POPM = PopularimeterFrame.Get(tag, "no@email", true);
+                var byteValue = POPM.Rating;
+                if (byteValue != 0)
+                {
+                    var log2 = (int)Math.Log(byteValue, 2);
+                    var stars = log2 - 3;
+                    return stars < 0 ? "0" : stars.ToString();
+                }
+                return "0";
+            }
+        }
+
+        private void SetStars(string oldPath)
+        {
+            var MP3 = TagLib.File.Create(oldPath);
+            var tag = (TagLib.Id3v2.Tag)MP3.GetTag(TagLib.TagTypes.Id3v2);
+            var POPM = PopularimeterFrame.Get(tag, "no@email", true);
+
+            var intValue = (int)Math.Pow(2, 3 + stars);
+            byte byteValue = intValue > 255 ? (byte)255 : (byte)intValue;
+            POPM.Rating = byteValue;
+            MP3.Save();
+            MP3.Dispose();
+
+
+        }
         #endregion
 
+        private void Button1_Click(object sender, EventArgs e)
+        {
 
+            // var mp3 = TagLib.File.Create(@"D:\music\Limp Bizkit\2011 - Gold Cobra\01 - Introbra.mp3");
+            var mp3 = TagLib.File.Create(@"D:\music\Limp Bizkit\2011 - Gold Cobra\03 - Gold Cobra.mp3");
+
+            // var mp3 = TagLib.File.Create(@"D:\music\2 Pac\1996 - Don Killuminati the 7 Day Theory\1 - Intro-Bomb First (My Second Reply).mp3");
+            var tag = (TagLib.Id3v2.Tag)mp3.GetTag(TagLib.TagTypes.Id3v2);
+
+            var PopM = PopularimeterFrame.Get(tag, "no@email", true);
+
+            var popf1 = new PopularimeterFrame("no@email")
+            {
+                Rating = 50
+            };
+            var popf2 = new PopularimeterFrame("Windows Media Player 9 Series")
+            {
+                Rating = 50
+            };
+            tag.AddFrame(popf1);
+            PopM.Rating = 100;
+
+            mp3.Save();
+            mp3.Dispose();
+
+        }
+
+        private void BtnShowPropertiers_Click(object sender, EventArgs e)
+        {
+            var MP3 = TagLib.File.Create(txtBoxPath.Text);
+            var tag = (TagLib.Id3v2.Tag)MP3.GetTag(TagLib.TagTypes.Id3v2);
+            var POPM = PopularimeterFrame.Get(tag, "no@email", true);
+            var POPM1 = PopularimeterFrame.Get(tag, "warnov@gmail.com", true);
+            richTextBox1.Text = $"{JsonConvert.SerializeObject(POPM)}\n\n{JsonConvert.SerializeObject(POPM1)}";
+            MP3.Dispose();
+        }
+
+        private void BtnTestStars_Click(object sender, EventArgs e)
+        {
+            var MP3 = TagLib.File.Create(txtBoxPath.Text);
+            var tag = (TagLib.Id3v2.Tag)MP3.GetTag(TagLib.TagTypes.Id3v2);
+            var POPM = PopularimeterFrame.Get(tag, "no@email", false);
+            var POPM1 = PopularimeterFrame.Get(tag, "warnov@gmail.com", true);
+            var UTIF = UserTextInformationFrame.Get(tag, "warnovrate", true);
+
+            var intValue = (int)Math.Pow(2, 3 + stars);
+            byte byteValue = intValue > 255 ? (byte)255 : (byte)intValue;
+            POPM.Rating = byteValue;
+            POPM1.Rating = byteValue;
+            UTIF.Text = new string[] { byteValue.ToString() };
+            MP3.Save();
+            MP3.Dispose();
+        }
     }
 }

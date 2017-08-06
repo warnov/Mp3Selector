@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{93EDC342-FF25-420D-A36F-8721181E5F2F}</ProjectGuid>
+    <ProjectGuid>{00C9BAB9-FC43-489D-BD12-608D75576A3B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Mp3Selector</RootNamespace>
-    <AssemblyName>Mp3Selector</AssemblyName>
+    <RootNamespace>Mp3Ranker</RootNamespace>
+    <AssemblyName>Mp3Ranker</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -60,6 +60,11 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmMainLogic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library.cs" />
+    <Compile Include="Mp3Info.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmMain.resx">
@@ -74,9 +79,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

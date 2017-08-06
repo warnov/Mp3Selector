@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mp3Selector", "Mp3Selector\Mp3Selector.csproj", "{93EDC342-FF25-420D-A36F-8721181E5F2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mp3Ranker", "Mp3Ranker\Mp3Ranker.csproj", "{00C9BAB9-FC43-489D-BD12-608D75576A3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{93EDC342-FF25-420D-A36F-8721181E5F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93EDC342-FF25-420D-A36F-8721181E5F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93EDC342-FF25-420D-A36F-8721181E5F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00C9BAB9-FC43-489D-BD12-608D75576A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C9BAB9-FC43-489D-BD12-608D75576A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C9BAB9-FC43-489D-BD12-608D75576A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C9BAB9-FC43-489D-BD12-608D75576A3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
