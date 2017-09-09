@@ -5,6 +5,7 @@ namespace Mp3Ranker
 {
     public class Mp3Info
     {
+        public const int ATT_NUMBER = 29;
         public const char SEP = '-';
         public string Path { get; set; }
         public short[] Values { get; set; }
@@ -23,18 +24,23 @@ namespace Mp3Ranker
             }
         }
 
+        [JsonIgnore]
+        public bool IsForCar => Values?[6] > 0;
+        [JsonIgnore]
+        public bool IsElite => Values?[28] > 0;
+
         public void SetAttributes(string attributesLine)
         {
             var attributesArray = attributesLine.Split(SEP);
             for (int i = 0; i < attributesArray.Length; i++)
-            {
+            {   
                 Values[i] = short.Parse(attributesArray[i]);
-            }            
+            }
         }
 
         public void CopyAttributes(Mp3Info source)
         {
-            Values = new short[21];
+            Values = new short[ATT_NUMBER];
             for (int i = 0; i < source.Values.Length; i++)
             {
                 Values[i] = source.Values[i];
@@ -65,4 +71,12 @@ namespace Mp3Ranker
 18 Focus
 19 Instrumental
 20 Spanish
+21 HipHop
+22 Weird
+23 Romantic
+24 Dance
+25 Party
+26 Punk
+27 Depresive
+28 MasterPiece
 */

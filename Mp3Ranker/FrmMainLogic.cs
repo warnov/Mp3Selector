@@ -31,17 +31,16 @@ namespace Mp3Ranker
 
         #endregion
 
-
+        #region Playing Logic
         private void LikeNext()
         {
             _newSong = false;
             _oldPath = _index >= 0 ? CurrentPath : string.Empty;
             _oldMp3Info = CurrentMp3Info;
-            _session.MP3s.RemoveAt(_index);
+            if (TbrRanking.Value != 0) _session.MP3s.RemoveAt(_index);
             _session.Save(_sessionPath);
             PlayNext();
         }
-
 
         private void PlayNext()
         {
@@ -59,13 +58,12 @@ namespace Mp3Ranker
             _newSong = false;
         }
 
-
         private void DisplayMP3Info()
         {
             try
             {
                 if (CurrentMp3Info.Values == null)
-                    CurrentMp3Info.Values = new short[21];
+                    CurrentMp3Info.Values = new short[Mp3Info.ATT_NUMBER];
                 var MP3 = TagLib.File.Create(CurrentPath);
                 var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
                 var tagAdv = (TagLib.Id3v2.Tag)tag;
@@ -90,7 +88,8 @@ namespace Mp3Ranker
                 lblTrack.Text = "!";
                 lblArtistAlbum.Text = CurrentPath;
             }
-        }
+        } 
+        #endregion
 
         #region TrackBar Actions
         private void SetTrackBarValues()
@@ -125,14 +124,7 @@ namespace Mp3Ranker
         }
         #endregion
 
-        private string SetSessionName(string fileName)
-        {
-            var sessionName = Path.GetFileNameWithoutExtension(fileName);
-            this.Text = $"MP3Ranker - {sessionName}";
-            TssMain.Text = $"{_session.MP3s.Count} songs loaded to classify";
-            return sessionName;
-        }
-
+        #region Ranking Management
         private void AdjustValue(short index, short value)
         {
             CurrentMp3Info.Values[index] = value;
@@ -154,6 +146,7 @@ namespace Mp3Ranker
                 libraryMp3.CopyAttributes(_oldMp3Info);
                 _lib.Save(_LIB_PATH);
             }
-        }
+        } 
+        #endregion
     }
 }

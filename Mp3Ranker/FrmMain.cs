@@ -13,8 +13,10 @@ namespace Mp3Ranker
 {
     public partial class FrmMain : Form
     {
+        #region Init and Fields
         Library _lib, _session;
         const string _LIB_PATH = "mp3Ranker.lib.json";
+        const string _MEM_PATH = "mp3Ranker.mem.json";
         bool _newSong = false;
         bool _auto = false;
         int _index = -1;
@@ -34,10 +36,21 @@ namespace Mp3Ranker
             {
                 _lib = new Library();
                 LoadLibrary();
+                CheckExistingSession();
             }
             else
             {
                 MessageBox.Show("Library not found. You can build or load one from the menu");
+            }
+        }
+
+        private void CheckExistingSession()
+        {
+            if (File.Exists(_MEM_PATH))
+            {
+                _sessionPath = File.ReadAllText(_MEM_PATH);
+                BtnContinueSession.Visible = true;
+                BtnContinueSession.Text = $"Continue with {Path.GetFileNameWithoutExtension(_sessionPath)}";
             }
         }
 
@@ -47,7 +60,14 @@ namespace Mp3Ranker
             _lib.Load(_LIB_PATH);
         }
 
-
+        private string SetSessionName(string fileName)
+        {
+            var sessionName = Path.GetFileNameWithoutExtension(fileName);
+            this.Text = $"MP3Ranker - {sessionName}";
+            TssMain.Text = $"{_session.MP3s.Count} songs loaded to classify";
+            return sessionName;
+        }
+        #endregion
 
         #region Menu Management
         private void TmiNewLibray_Click(object sender, EventArgs e)
@@ -80,6 +100,7 @@ namespace Mp3Ranker
                     _session.Save(_sessionPath);
                     var sessionName = SetSessionName(_sessionPath);
                     MessageBox.Show($"Session {sessionName} created and saved");
+                    SaveLastSessionUsed();
                 }
             }
             else
@@ -97,12 +118,29 @@ namespace Mp3Ranker
                 _sessionPath = OfdMain.FileName;
                 _session.Load(_sessionPath);
                 SetSessionName(_sessionPath);
+                SaveLastSessionUsed();
             }
+        }        
+
+        private void BtnContinueSession_Click(object sender, EventArgs e)
+        {
+            _session = new Library();
+            _session.Load(_sessionPath);
+            SetSessionName(_sessionPath);
+            TmrMain.Enabled = true;
+            _newSong = true;
+            _auto = true;
+            PlayNext();
+        }
+
+        private void SaveLastSessionUsed()
+        {
+            File.WriteAllText(_MEM_PATH, _sessionPath);
         }
 
         #endregion
 
-        #region Reproduction Controls
+        #region Playing Controls Events
         private void BtnPlay_Click(object sender, EventArgs e)
         {
             if (WMPMain.playState == WMPLib.WMPPlayState.wmppsPaused)
@@ -150,12 +188,12 @@ namespace Mp3Ranker
         }
 
 
-        private void btnHop_Click(object sender, EventArgs e)
+        private void BtnHop_Click(object sender, EventArgs e)
         {
             WMPMain.Ctlcontrols.currentPosition += 5;
         }
 
-        private void btnJump_Click(object sender, EventArgs e)
+        private void BtnJump_Click(object sender, EventArgs e)
         {
             WMPMain.Ctlcontrols.currentPosition += 15;
         }
@@ -170,7 +208,6 @@ namespace Mp3Ranker
             WMPMain.Ctlcontrols.currentPosition += 60;
         }
         #endregion
-
 
         #region Spetial Events
         private void WMPMain_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
@@ -193,13 +230,78 @@ namespace Mp3Ranker
             else if (WMPMain.playState == WMPLib.WMPPlayState.wmppsPlaying
                 || WMPMain.playState == WMPLib.WMPPlayState.wmppsPaused)
             {
+                var status = WMPMain.playState == WMPLib.WMPPlayState.wmppsPaused ? "PAUSED" : "Playing";
                 var timing = $"{WMPMain.Ctlcontrols.currentPositionString} / {WMPMain.currentMedia.durationString}";
-                TssMain.Text = $"Playing - {timing}";
+                TssMain.Text = $"{status} - {timing}";
             }
             else TssMain.Text = $"Ready";
             var processed = _lib.MP3s.Count - _session.MP3s.Count;
             var total = _lib.MP3s.Count;
             TssCount.Text = $"{processed}/{total} processed.";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var carMp3s =
+                 from mp3 in _lib.MP3s
+                 where mp3.IsForCar
+                 select mp3;
+            MessageBox.Show($"{carMp3s.Count()} files to be copied!");
+            var idxs = new List<int>();
+            for (int i = 0; i < carMp3s.Count(); i++)
+            {
+                idxs.Add(i);
+            }
+
+            var rnd = new Random();
+            foreach(var mp3 in carMp3s)
+            {
+                var pointer = rnd.Next(0, idxs.Count());
+                var idx = ++idxs[pointer];
+                idxs.RemoveAt(pointer);
+                using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
+                {
+                    var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
+                    var title = tag.Title != null ? tag.Title.Replace(":", "").Replace("?", "").Replace("*", "") : Path.GetFileName(mp3.Path);
+                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
+                    var newPath = $@"c:\tmp\carMp3\{idx} - {title}{album}.mp3";
+
+                    File.Copy(mp3.Path, newPath);                   
+                }
+            }
+            MessageBox.Show("Files copied!!");
+        }
+
+        private void btnElitePlayList_Click(object sender, EventArgs e)
+        {
+            var carMp3s =
+                 from mp3 in _lib.MP3s
+                 where mp3.IsElite
+                 select mp3;
+            MessageBox.Show($"{carMp3s.Count()} files to be copied!");
+            var idxs = new List<int>();
+            for (int i = 0; i < carMp3s.Count(); i++)
+            {
+                idxs.Add(i);
+            }
+
+            var rnd = new Random();
+            foreach (var mp3 in carMp3s)
+            {
+                var pointer = rnd.Next(0, idxs.Count());
+                var idx = ++idxs[pointer];
+                idxs.RemoveAt(pointer);
+                using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
+                {
+                    var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
+                    var title = tag.Title != null ? tag.Title.Replace(":", "").Replace("?", "").Replace("*", "") : Path.GetFileName(mp3.Path);
+                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
+                    var newPath = $@"c:\tmp\eliteMp3\{idx} - {title}{album}.mp3";
+
+                    File.Copy(mp3.Path, newPath);
+                }
+            }
+            MessageBox.Show("Files copied!!");
         }
 
         private void Tbr_Scroll(object sender, EventArgs e)

@@ -96,6 +96,25 @@
             this.BtnDoubleJump = new System.Windows.Forms.Button();
             this.BtnQuadJump = new System.Windows.Forms.Button();
             this.BtnPause = new System.Windows.Forms.Button();
+            this.BtnContinueSession = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.trackBar4 = new System.Windows.Forms.TrackBar();
+            this.trackBar5 = new System.Windows.Forms.TrackBar();
+            this.trackBar6 = new System.Windows.Forms.TrackBar();
+            this.trackBar7 = new System.Windows.Forms.TrackBar();
+            this.trackBar8 = new System.Windows.Forms.TrackBar();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.btnCarPlaylist = new System.Windows.Forms.Button();
+            this.btnElitePlayList = new System.Windows.Forms.Button();
             this.MnuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMPMain)).BeginInit();
             this.SstMain.SuspendLayout();
@@ -120,6 +139,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.TbrSpanish)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbrInstrumental)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbrFocus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).BeginInit();
             this.SuspendLayout();
             // 
             // MnuMain
@@ -129,7 +156,7 @@
             this.sessionToolStripMenuItem});
             this.MnuMain.Location = new System.Drawing.Point(0, 0);
             this.MnuMain.Name = "MnuMain";
-            this.MnuMain.Size = new System.Drawing.Size(819, 24);
+            this.MnuMain.Size = new System.Drawing.Size(823, 24);
             this.MnuMain.TabIndex = 0;
             this.MnuMain.Text = "Library";
             // 
@@ -201,7 +228,7 @@
             this.btnHop.TabIndex = 18;
             this.btnHop.Text = ">>5";
             this.btnHop.UseVisualStyleBackColor = true;
-            this.btnHop.Click += new System.EventHandler(this.btnHop_Click);
+            this.btnHop.Click += new System.EventHandler(this.BtnHop_Click);
             // 
             // btnJump
             // 
@@ -211,7 +238,7 @@
             this.btnJump.TabIndex = 17;
             this.btnJump.Text = ">>15";
             this.btnJump.UseVisualStyleBackColor = true;
-            this.btnJump.Click += new System.EventHandler(this.btnJump_Click);
+            this.btnJump.Click += new System.EventHandler(this.BtnJump_Click);
             // 
             // BtnPlay
             // 
@@ -233,9 +260,9 @@
             this.SstMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TssMain,
             this.TssCount});
-            this.SstMain.Location = new System.Drawing.Point(0, 440);
+            this.SstMain.Location = new System.Drawing.Point(0, 507);
             this.SstMain.Name = "SstMain";
-            this.SstMain.Size = new System.Drawing.Size(819, 22);
+            this.SstMain.Size = new System.Drawing.Size(823, 22);
             this.SstMain.TabIndex = 19;
             this.SstMain.Text = "Ready";
             // 
@@ -691,11 +718,204 @@
             this.BtnPause.UseVisualStyleBackColor = true;
             this.BtnPause.Click += new System.EventHandler(this.BtnPause_Click);
             // 
+            // BtnContinueSession
+            // 
+            this.BtnContinueSession.Location = new System.Drawing.Point(25, 176);
+            this.BtnContinueSession.Name = "BtnContinueSession";
+            this.BtnContinueSession.Size = new System.Drawing.Size(167, 23);
+            this.BtnContinueSession.TabIndex = 74;
+            this.BtnContinueSession.UseVisualStyleBackColor = true;
+            this.BtnContinueSession.Visible = false;
+            this.BtnContinueSession.Click += new System.EventHandler(this.BtnContinueSession_Click);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(694, 434);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 90;
+            this.trackBar1.Tag = "28";
+            this.trackBar1.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.Location = new System.Drawing.Point(694, 404);
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(104, 45);
+            this.trackBar2.TabIndex = 89;
+            this.trackBar2.Tag = "24";
+            this.trackBar2.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar3
+            // 
+            this.trackBar3.Location = new System.Drawing.Point(491, 434);
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Size = new System.Drawing.Size(104, 45);
+            this.trackBar3.TabIndex = 88;
+            this.trackBar3.Tag = "27";
+            this.trackBar3.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar4
+            // 
+            this.trackBar4.Location = new System.Drawing.Point(491, 404);
+            this.trackBar4.Name = "trackBar4";
+            this.trackBar4.Size = new System.Drawing.Size(104, 45);
+            this.trackBar4.TabIndex = 87;
+            this.trackBar4.Tag = "23";
+            this.trackBar4.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar5
+            // 
+            this.trackBar5.Location = new System.Drawing.Point(288, 434);
+            this.trackBar5.Name = "trackBar5";
+            this.trackBar5.Size = new System.Drawing.Size(104, 45);
+            this.trackBar5.TabIndex = 86;
+            this.trackBar5.Tag = "26";
+            this.trackBar5.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar6
+            // 
+            this.trackBar6.Location = new System.Drawing.Point(288, 401);
+            this.trackBar6.Name = "trackBar6";
+            this.trackBar6.Size = new System.Drawing.Size(104, 45);
+            this.trackBar6.TabIndex = 85;
+            this.trackBar6.Tag = "22";
+            this.trackBar6.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar7
+            // 
+            this.trackBar7.Location = new System.Drawing.Point(98, 432);
+            this.trackBar7.Name = "trackBar7";
+            this.trackBar7.Size = new System.Drawing.Size(104, 45);
+            this.trackBar7.TabIndex = 84;
+            this.trackBar7.Tag = "25";
+            this.trackBar7.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // trackBar8
+            // 
+            this.trackBar8.Location = new System.Drawing.Point(98, 404);
+            this.trackBar8.Name = "trackBar8";
+            this.trackBar8.Size = new System.Drawing.Size(104, 45);
+            this.trackBar8.TabIndex = 83;
+            this.trackBar8.Tag = "21";
+            this.trackBar8.Scroll += new System.EventHandler(this.Tbr_Scroll);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(617, 434);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(66, 13);
+            this.label19.TabIndex = 82;
+            this.label19.Text = "MasterPiece";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(618, 404);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(39, 13);
+            this.label22.TabIndex = 81;
+            this.label22.Text = "Dance";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(415, 434);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(55, 13);
+            this.label23.TabIndex = 80;
+            this.label23.Text = "Depresive";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(212, 434);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(32, 13);
+            this.label24.TabIndex = 79;
+            this.label24.Text = "Punk";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(22, 404);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(43, 13);
+            this.label25.TabIndex = 78;
+            this.label25.Text = "HipHop";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(415, 404);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(52, 13);
+            this.label26.TabIndex = 77;
+            this.label26.Text = "Romantic";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(212, 404);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(35, 13);
+            this.label27.TabIndex = 76;
+            this.label27.Text = "Weird";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(22, 434);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(31, 13);
+            this.label28.TabIndex = 75;
+            this.label28.Text = "Party";
+            // 
+            // btnCarPlaylist
+            // 
+            this.btnCarPlaylist.Location = new System.Drawing.Point(587, 200);
+            this.btnCarPlaylist.Name = "btnCarPlaylist";
+            this.btnCarPlaylist.Size = new System.Drawing.Size(75, 23);
+            this.btnCarPlaylist.TabIndex = 91;
+            this.btnCarPlaylist.Text = "Car Playlist";
+            this.btnCarPlaylist.UseVisualStyleBackColor = true;
+            this.btnCarPlaylist.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnElitePlayList
+            // 
+            this.btnElitePlayList.Location = new System.Drawing.Point(668, 200);
+            this.btnElitePlayList.Name = "btnElitePlayList";
+            this.btnElitePlayList.Size = new System.Drawing.Size(75, 23);
+            this.btnElitePlayList.TabIndex = 92;
+            this.btnElitePlayList.Text = "Elite Playlist";
+            this.btnElitePlayList.UseVisualStyleBackColor = true;
+            this.btnElitePlayList.Click += new System.EventHandler(this.btnElitePlayList_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(819, 462);
+            this.ClientSize = new System.Drawing.Size(823, 529);
+            this.Controls.Add(this.btnElitePlayList);
+            this.Controls.Add(this.btnCarPlaylist);
+            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.trackBar2);
+            this.Controls.Add(this.trackBar3);
+            this.Controls.Add(this.trackBar4);
+            this.Controls.Add(this.trackBar5);
+            this.Controls.Add(this.trackBar6);
+            this.Controls.Add(this.trackBar7);
+            this.Controls.Add(this.trackBar8);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.BtnContinueSession);
             this.Controls.Add(this.BtnPause);
             this.Controls.Add(this.BtnQuadJump);
             this.Controls.Add(this.BtnDoubleJump);
@@ -779,6 +999,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.TbrSpanish)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbrInstrumental)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbrFocus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -852,6 +1080,25 @@
         private System.Windows.Forms.Button BtnDoubleJump;
         private System.Windows.Forms.Button BtnQuadJump;
         private System.Windows.Forms.Button BtnPause;
+        private System.Windows.Forms.Button BtnContinueSession;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.TrackBar trackBar4;
+        private System.Windows.Forms.TrackBar trackBar5;
+        private System.Windows.Forms.TrackBar trackBar6;
+        private System.Windows.Forms.TrackBar trackBar7;
+        private System.Windows.Forms.TrackBar trackBar8;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Button btnCarPlaylist;
+        private System.Windows.Forms.Button btnElitePlayList;
     }
 }
 

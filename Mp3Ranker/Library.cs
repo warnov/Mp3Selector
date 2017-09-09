@@ -34,16 +34,7 @@ namespace Mp3Ranker
                 }
                 Build(d);
             }
-        }
-
-        public Mp3Info FindByPath(string path)
-        {
-            var mp3Info =
-                (from mp3 in MP3s
-                 where mp3.Path == path
-                 select mp3).FirstOrDefault();
-            return mp3Info;
-        }
+        }       
 
         public void Save(string path)
         {
@@ -61,6 +52,15 @@ namespace Mp3Ranker
         {
             if (MP3s == null) MP3s = new List<Mp3Info>();
             else MP3s.Clear();
+        }
+
+        public Mp3Info FindByPath(string path)
+        {
+            var mp3Info =
+                (from mp3 in MP3s
+                 where mp3.Path == path
+                 select mp3).FirstOrDefault();
+            return mp3Info;
         }
     }
 }
