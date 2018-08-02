@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace Mp3Ranker
@@ -27,7 +28,11 @@ namespace Mp3Ranker
         [JsonIgnore]
         public bool IsForCar => Values?[6] > 0;
         [JsonIgnore]
-        public bool IsElite => Values?[28] > 0;
+        public bool IsElite => Values?[28] > 0;       
+        internal bool MinimumRanked(decimal rank)
+        {
+            return Values?[0] >= rank;
+        }
 
         public void SetAttributes(string attributesLine)
         {
@@ -46,6 +51,7 @@ namespace Mp3Ranker
                 Values[i] = source.Values[i];
             }
         }
+
     }
 }
 

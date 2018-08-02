@@ -115,6 +115,10 @@
             this.label28 = new System.Windows.Forms.Label();
             this.btnCarPlaylist = new System.Windows.Forms.Button();
             this.btnElitePlayList = new System.Windows.Forms.Button();
+            this.nudRanking = new System.Windows.Forms.NumericUpDown();
+            this.btnRankingPlaylist = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtListSize = new System.Windows.Forms.TextBox();
             this.MnuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMPMain)).BeginInit();
             this.SstMain.SuspendLayout();
@@ -147,6 +151,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRanking)).BeginInit();
             this.SuspendLayout();
             // 
             // MnuMain
@@ -874,17 +879,17 @@
             // 
             // btnCarPlaylist
             // 
-            this.btnCarPlaylist.Location = new System.Drawing.Point(587, 200);
+            this.btnCarPlaylist.Location = new System.Drawing.Point(498, 200);
             this.btnCarPlaylist.Name = "btnCarPlaylist";
             this.btnCarPlaylist.Size = new System.Drawing.Size(75, 23);
             this.btnCarPlaylist.TabIndex = 91;
             this.btnCarPlaylist.Text = "Car Playlist";
             this.btnCarPlaylist.UseVisualStyleBackColor = true;
-            this.btnCarPlaylist.Click += new System.EventHandler(this.button1_Click);
+            this.btnCarPlaylist.Click += new System.EventHandler(this.btnCarPlayList_Click);
             // 
             // btnElitePlayList
             // 
-            this.btnElitePlayList.Location = new System.Drawing.Point(668, 200);
+            this.btnElitePlayList.Location = new System.Drawing.Point(578, 200);
             this.btnElitePlayList.Name = "btnElitePlayList";
             this.btnElitePlayList.Size = new System.Drawing.Size(75, 23);
             this.btnElitePlayList.TabIndex = 92;
@@ -892,11 +897,48 @@
             this.btnElitePlayList.UseVisualStyleBackColor = true;
             this.btnElitePlayList.Click += new System.EventHandler(this.btnElitePlayList_Click);
             // 
+            // nudRanking
+            // 
+            this.nudRanking.Location = new System.Drawing.Point(659, 200);
+            this.nudRanking.Name = "nudRanking";
+            this.nudRanking.Size = new System.Drawing.Size(54, 20);
+            this.nudRanking.TabIndex = 93;
+            // 
+            // btnRankingPlaylist
+            // 
+            this.btnRankingPlaylist.Location = new System.Drawing.Point(719, 200);
+            this.btnRankingPlaylist.Name = "btnRankingPlaylist";
+            this.btnRankingPlaylist.Size = new System.Drawing.Size(92, 23);
+            this.btnRankingPlaylist.TabIndex = 94;
+            this.btnRankingPlaylist.Text = "Ranking Playlist";
+            this.btnRankingPlaylist.UseVisualStyleBackColor = true;
+            this.btnRankingPlaylist.Click += new System.EventHandler(this.btnRankingPlaylist_Click);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(498, 176);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(73, 13);
+            this.label29.TabIndex = 95;
+            this.label29.Text = "List Size (MiB)";
+            // 
+            // txtListSize
+            // 
+            this.txtListSize.Location = new System.Drawing.Point(579, 175);
+            this.txtListSize.Name = "txtListSize";
+            this.txtListSize.Size = new System.Drawing.Size(133, 20);
+            this.txtListSize.TabIndex = 96;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(823, 529);
+            this.Controls.Add(this.txtListSize);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.btnRankingPlaylist);
+            this.Controls.Add(this.nudRanking);
             this.Controls.Add(this.btnElitePlayList);
             this.Controls.Add(this.btnCarPlaylist);
             this.Controls.Add(this.trackBar1);
@@ -1007,6 +1049,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRanking)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1099,6 +1142,10 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button btnCarPlaylist;
         private System.Windows.Forms.Button btnElitePlayList;
+        private System.Windows.Forms.NumericUpDown nudRanking;
+        private System.Windows.Forms.Button btnRankingPlaylist;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox txtListSize;
     }
 }
 

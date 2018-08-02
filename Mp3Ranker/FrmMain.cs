@@ -17,6 +17,9 @@ namespace Mp3Ranker
         Library _lib, _session;
         const string _LIB_PATH = "mp3Ranker.lib.json";
         const string _MEM_PATH = "mp3Ranker.mem.json";
+        const string _RANK_PATH = @"c:\tmp\rankMp3";
+        const string _CAR_PATH = @"c:\tmp\carMp3";
+        const string _ELITE_PATH = @"c:\tmp\eliteMp3";        
         bool _newSong = false;
         bool _auto = false;
         int _index = -1;
@@ -120,7 +123,7 @@ namespace Mp3Ranker
                 SetSessionName(_sessionPath);
                 SaveLastSessionUsed();
             }
-        }        
+        }
 
         private void BtnContinueSession_Click(object sender, EventArgs e)
         {
@@ -184,7 +187,7 @@ namespace Mp3Ranker
             _session.Save(_sessionPath);
             PlayNext();
             _newSong = false;
-            ManualStop();            
+            ManualStop();
         }
 
 
@@ -209,7 +212,7 @@ namespace Mp3Ranker
         }
         #endregion
 
-        #region Spetial Events
+        #region Special Events
         private void WMPMain_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             if (WMPMain.playState == WMPLib.WMPPlayState.wmppsStopped && _newSong && _auto)
@@ -240,69 +243,79 @@ namespace Mp3Ranker
             TssCount.Text = $"{processed}/{total} processed.";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CopyList(List<Mp3Info> selectedMp3s, string destinationPath)
         {
-            var carMp3s =
-                 from mp3 in _lib.MP3s
-                 where mp3.IsForCar
-                 select mp3;
-            MessageBox.Show($"{carMp3s.Count()} files to be copied!");
+            var currentListSize = 0L;
+            long maxListSize = long.TryParse(txtListSize.Text, out maxListSize) ? maxListSize *= 1024 * 1024 : long.MaxValue;
+
+            MessageBox.Show($"{selectedMp3s.Count()} files to choose from!");
             var idxs = new List<int>();
-            for (int i = 0; i < carMp3s.Count(); i++)
+            for (int i = 0; i < selectedMp3s.Count(); i++)
             {
                 idxs.Add(i);
             }
 
             var rnd = new Random();
-            foreach(var mp3 in carMp3s)
+            var effectiveSongs = 0;
+            while (currentListSize <= maxListSize && effectiveSongs<= selectedMp3s.Count())
             {
                 var pointer = rnd.Next(0, idxs.Count());
                 var idx = ++idxs[pointer];
                 idxs.RemoveAt(pointer);
+                Mp3Info mp3 = selectedMp3s[pointer];
                 using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
                 {
                     var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
-                    var title = tag.Title != null ? tag.Title.Replace(":", "").Replace("?", "").Replace("*", "") : Path.GetFileName(mp3.Path);
-                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
-                    var newPath = $@"c:\tmp\carMp3\{idx} - {title}{album}.mp3";
 
-                    File.Copy(mp3.Path, newPath);                   
+                    var title = tag.Title != null ? tag.Title.Replace(":", "").
+                        Replace("?", string.Empty).
+                        Replace("*", string.Empty).
+                        Replace("\"", string.Empty).
+                        Replace("/", string.Empty).
+                        Replace("\\", string.Empty) : Path.GetFileName(mp3.Path);
+
+                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
+                    var newPath = $@"{destinationPath}\{++effectiveSongs} - {title}{album}.mp3";
+                    var fi = new FileInfo(mp3.Path);
+
+                    currentListSize += fi.Length;
+                    File.Copy(mp3.Path, newPath, true);                    
                 }
             }
-            MessageBox.Show("Files copied!!");
+            MessageBox.Show($"{effectiveSongs} songs copied totalizing {currentListSize / 1024 / 1024} MiB");
+        }
+
+        private void btnCarPlayList_Click(object sender, EventArgs e)
+        {  
+            var selectedMp3s =
+                 from mp3 in _lib.MP3s
+                 where mp3.IsForCar
+                 select mp3;
+
+            CopyList(selectedMp3s.ToList(),_CAR_PATH);           
         }
 
         private void btnElitePlayList_Click(object sender, EventArgs e)
         {
-            var carMp3s =
+            var selectedMp3s =
                  from mp3 in _lib.MP3s
                  where mp3.IsElite
                  select mp3;
-            MessageBox.Show($"{carMp3s.Count()} files to be copied!");
-            var idxs = new List<int>();
-            for (int i = 0; i < carMp3s.Count(); i++)
-            {
-                idxs.Add(i);
-            }
 
-            var rnd = new Random();
-            foreach (var mp3 in carMp3s)
-            {
-                var pointer = rnd.Next(0, idxs.Count());
-                var idx = ++idxs[pointer];
-                idxs.RemoveAt(pointer);
-                using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
-                {
-                    var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
-                    var title = tag.Title != null ? tag.Title.Replace(":", "").Replace("?", "").Replace("*", "") : Path.GetFileName(mp3.Path);
-                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
-                    var newPath = $@"c:\tmp\eliteMp3\{idx} - {title}{album}.mp3";
-
-                    File.Copy(mp3.Path, newPath);
-                }
-            }
-            MessageBox.Show("Files copied!!");
+            CopyList(selectedMp3s.ToList(), _ELITE_PATH);
         }
+
+        private void btnRankingPlaylist_Click(object sender, EventArgs e)
+        {
+            var rank = nudRanking.Value;
+            var selectedMp3s =
+                 from mp3 in _lib.MP3s
+                 where mp3.MinimumRanked(rank)
+                 select mp3;
+
+            CopyList(selectedMp3s.ToList(), _RANK_PATH);
+        }
+            
 
         private void Tbr_Scroll(object sender, EventArgs e)
         {
