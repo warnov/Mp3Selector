@@ -119,6 +119,7 @@
             this.btnRankingPlaylist = new System.Windows.Forms.Button();
             this.label29 = new System.Windows.Forms.Label();
             this.txtListSize = new System.Windows.Forms.TextBox();
+            this.BtnClear = new System.Windows.Forms.Button();
             this.MnuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMPMain)).BeginInit();
             this.SstMain.SuspendLayout();
@@ -885,7 +886,7 @@
             this.btnCarPlaylist.TabIndex = 91;
             this.btnCarPlaylist.Text = "Car Playlist";
             this.btnCarPlaylist.UseVisualStyleBackColor = true;
-            this.btnCarPlaylist.Click += new System.EventHandler(this.btnCarPlayList_Click);
+            this.btnCarPlaylist.Click += new System.EventHandler(this.BtnCarPlayList_Click);
             // 
             // btnElitePlayList
             // 
@@ -895,7 +896,7 @@
             this.btnElitePlayList.TabIndex = 92;
             this.btnElitePlayList.Text = "Elite Playlist";
             this.btnElitePlayList.UseVisualStyleBackColor = true;
-            this.btnElitePlayList.Click += new System.EventHandler(this.btnElitePlayList_Click);
+            this.btnElitePlayList.Click += new System.EventHandler(this.BtnElitePlayList_Click);
             // 
             // nudRanking
             // 
@@ -912,7 +913,7 @@
             this.btnRankingPlaylist.TabIndex = 94;
             this.btnRankingPlaylist.Text = "Ranking Playlist";
             this.btnRankingPlaylist.UseVisualStyleBackColor = true;
-            this.btnRankingPlaylist.Click += new System.EventHandler(this.btnRankingPlaylist_Click);
+            this.btnRankingPlaylist.Click += new System.EventHandler(this.BtnRankingPlaylist_Click);
             // 
             // label29
             // 
@@ -930,11 +931,23 @@
             this.txtListSize.Size = new System.Drawing.Size(133, 20);
             this.txtListSize.TabIndex = 96;
             // 
+            // BtnClear
+            // 
+            this.BtnClear.Location = new System.Drawing.Point(703, 481);
+            this.BtnClear.Name = "BtnClear";
+            this.BtnClear.Size = new System.Drawing.Size(75, 23);
+            this.BtnClear.TabIndex = 97;
+            this.BtnClear.Text = "Clear";
+            this.BtnClear.UseVisualStyleBackColor = true;
+            this.BtnClear.Click += new System.EventHandler(this.BtnClear_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnClear;
             this.ClientSize = new System.Drawing.Size(823, 529);
+            this.Controls.Add(this.BtnClear);
             this.Controls.Add(this.txtListSize);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.btnRankingPlaylist);
@@ -1012,9 +1025,11 @@
             this.Controls.Add(this.BtnPlay);
             this.Controls.Add(this.WMPMain);
             this.Controls.Add(this.MnuMain);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.MnuMain;
             this.Name = "FrmMain";
             this.Text = "Mp3Ranker";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmMain_KeyPress);
             this.MnuMain.ResumeLayout(false);
             this.MnuMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMPMain)).EndInit();
@@ -1054,6 +1069,7 @@
             this.PerformLayout();
 
         }
+
 
         #endregion
 
@@ -1146,6 +1162,7 @@
         private System.Windows.Forms.Button btnRankingPlaylist;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox txtListSize;
+        private System.Windows.Forms.Button BtnClear;
     }
 }
 

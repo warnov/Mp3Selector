@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Mp3Selector
@@ -14,6 +11,9 @@ namespace Mp3Selector
         [STAThread]
         static void Main()
         {
+            if (SingleInstanceClass.CheckForOtherApp("F53A8025-2FF6-418A-B688-53610C47A2DF"))
+                return;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmMain());

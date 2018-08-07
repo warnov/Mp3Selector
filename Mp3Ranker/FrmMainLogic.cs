@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TagLib.Id3v2;
 
@@ -127,7 +123,15 @@ namespace Mp3Ranker
         #region Ranking Management
         private void AdjustValue(short index, short value)
         {
-            CurrentMp3Info.Values[index] = value;
+            if (_session != null)
+            {
+                CurrentMp3Info.Values[index] = value;
+            }
+            else
+            {
+                MessageBox.Show("No session chosen");
+                ResetTrackBars();
+            }
         }
 
         private void SaveRanking()

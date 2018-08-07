@@ -19,7 +19,7 @@ namespace Mp3Ranker
         const string _MEM_PATH = "mp3Ranker.mem.json";
         const string _RANK_PATH = @"c:\tmp\rankMp3";
         const string _CAR_PATH = @"c:\tmp\carMp3";
-        const string _ELITE_PATH = @"c:\tmp\eliteMp3";        
+        const string _ELITE_PATH = @"c:\tmp\eliteMp3";
         bool _newSong = false;
         bool _auto = false;
         int _index = -1;
@@ -257,7 +257,7 @@ namespace Mp3Ranker
 
             var rnd = new Random();
             var effectiveSongs = 0;
-            while (currentListSize <= maxListSize && effectiveSongs<= selectedMp3s.Count())
+            while (currentListSize <= maxListSize && effectiveSongs <= selectedMp3s.Count())
             {
                 var pointer = rnd.Next(0, idxs.Count());
                 var idx = ++idxs[pointer];
@@ -279,23 +279,23 @@ namespace Mp3Ranker
                     var fi = new FileInfo(mp3.Path);
 
                     currentListSize += fi.Length;
-                    File.Copy(mp3.Path, newPath, true);                    
+                    File.Copy(mp3.Path, newPath, true);
                 }
             }
             MessageBox.Show($"{effectiveSongs} songs copied totalizing {currentListSize / 1024 / 1024} MiB");
         }
 
-        private void btnCarPlayList_Click(object sender, EventArgs e)
-        {  
+        private void BtnCarPlayList_Click(object sender, EventArgs e)
+        {
             var selectedMp3s =
                  from mp3 in _lib.MP3s
                  where mp3.IsForCar
                  select mp3;
 
-            CopyList(selectedMp3s.ToList(),_CAR_PATH);           
+            CopyList(selectedMp3s.ToList(), _CAR_PATH);
         }
 
-        private void btnElitePlayList_Click(object sender, EventArgs e)
+        private void BtnElitePlayList_Click(object sender, EventArgs e)
         {
             var selectedMp3s =
                  from mp3 in _lib.MP3s
@@ -305,7 +305,7 @@ namespace Mp3Ranker
             CopyList(selectedMp3s.ToList(), _ELITE_PATH);
         }
 
-        private void btnRankingPlaylist_Click(object sender, EventArgs e)
+        private void BtnRankingPlaylist_Click(object sender, EventArgs e)
         {
             var rank = nudRanking.Value;
             var selectedMp3s =
@@ -315,13 +315,61 @@ namespace Mp3Ranker
 
             CopyList(selectedMp3s.ToList(), _RANK_PATH);
         }
-            
+
 
         private void Tbr_Scroll(object sender, EventArgs e)
         {
             var trackBar = (TrackBar)sender;
             var index = Convert.ToInt16(trackBar.Tag);
             AdjustValue(index, (short)trackBar.Value);
+        }
+
+        private void FrmMain_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            var ch = e.KeyChar.ToString().ToLower()[0];
+            switch(ch)
+            {
+                case 'c':
+                    AdjustBar(TbrCar, 1);
+                    break;
+                case 'x':
+                    AdjustBar(TbrCar, -1);
+                    break;
+                case 'r':
+                    AdjustBar(TbrRanking, 10, 100);
+                    break;
+                case 'e':
+                    AdjustBar(TbrRanking, -10, 100);
+                    break;
+                case 'm':
+                    AdjustBar(TbrMinimal, 1);
+                    break;
+                case 'n':
+                    AdjustBar(TbrMinimal, -1);
+                    break;
+            }
+        }
+
+        private void AdjustBar(TrackBar tbr, int delta, int size=10)
+        {
+            var current = tbr.Value;
+            var next = current + delta < 0 ? 0 : current + delta;
+            tbr.Value = next > size ? size : next;            
+            Tbr_Scroll(tbr, null);
+        }
+
+        private void BtnClear_Click(object sender, EventArgs e)
+        {
+            ResetTrackBars();
+        }
+
+        private void FrmMain_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            var current = TbrRanking.Value;
+            var delta = e.Delta > 0 ? 10 : -10;
+            var next = current + delta < 0 ? 0 : current + delta;
+            TbrRanking.Value = next > 100 ? 100 : next;            
+            Tbr_Scroll(TbrRanking, null);
         }
         #endregion
     }
