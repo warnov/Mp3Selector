@@ -37,6 +37,7 @@
             this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TmiNewSession = new System.Windows.Forms.ToolStripMenuItem();
             this.TmiLoadSession = new System.Windows.Forms.ToolStripMenuItem();
+            this.TmiRebuildSessio = new System.Windows.Forms.ToolStripMenuItem();
             this.FbdMain = new System.Windows.Forms.FolderBrowserDialog();
             this.WMPMain = new AxWMPLib.AxWindowsMediaPlayer();
             this.btnHop = new System.Windows.Forms.Button();
@@ -192,7 +193,8 @@
             // 
             this.sessionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TmiNewSession,
-            this.TmiLoadSession});
+            this.TmiLoadSession,
+            this.TmiRebuildSessio});
             this.sessionToolStripMenuItem.Name = "sessionToolStripMenuItem";
             this.sessionToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.sessionToolStripMenuItem.Text = "&Session";
@@ -200,16 +202,23 @@
             // TmiNewSession
             // 
             this.TmiNewSession.Name = "TmiNewSession";
-            this.TmiNewSession.Size = new System.Drawing.Size(100, 22);
+            this.TmiNewSession.Size = new System.Drawing.Size(180, 22);
             this.TmiNewSession.Text = "&New";
             this.TmiNewSession.Click += new System.EventHandler(this.TmiNewSession_Click);
             // 
             // TmiLoadSession
             // 
             this.TmiLoadSession.Name = "TmiLoadSession";
-            this.TmiLoadSession.Size = new System.Drawing.Size(100, 22);
+            this.TmiLoadSession.Size = new System.Drawing.Size(180, 22);
             this.TmiLoadSession.Text = "&Load";
             this.TmiLoadSession.Click += new System.EventHandler(this.TmiLoadSession_Click);
+            // 
+            // TmiRebuildSessio
+            // 
+            this.TmiRebuildSessio.Name = "TmiRebuildSessio";
+            this.TmiRebuildSessio.Size = new System.Drawing.Size(180, 22);
+            this.TmiRebuildSessio.Text = "&Rebuild";
+            this.TmiRebuildSessio.Click += new System.EventHandler(this.TmiRebuildSession_Click);
             // 
             // FbdMain
             // 
@@ -728,7 +737,7 @@
             // 
             this.BtnContinueSession.Location = new System.Drawing.Point(25, 176);
             this.BtnContinueSession.Name = "BtnContinueSession";
-            this.BtnContinueSession.Size = new System.Drawing.Size(167, 23);
+            this.BtnContinueSession.Size = new System.Drawing.Size(265, 23);
             this.BtnContinueSession.TabIndex = 74;
             this.BtnContinueSession.UseVisualStyleBackColor = true;
             this.BtnContinueSession.Visible = false;
@@ -933,6 +942,7 @@
             // 
             // BtnClear
             // 
+            this.BtnClear.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnClear.Location = new System.Drawing.Point(703, 481);
             this.BtnClear.Name = "BtnClear";
             this.BtnClear.Size = new System.Drawing.Size(75, 23);
@@ -1163,6 +1173,7 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox txtListSize;
         private System.Windows.Forms.Button BtnClear;
+        private System.Windows.Forms.ToolStripMenuItem TmiRebuildSessio;
     }
 }
 

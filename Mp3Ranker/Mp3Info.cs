@@ -52,6 +52,25 @@ namespace Mp3Ranker
             }
         }
 
+        [JsonIgnore]
+        public short Weight//Linq could be used but it only works with int. Not short
+        {
+            get
+            {
+                short sum = 0;
+                if (Values != null)
+                {
+                    foreach (var value in Values)
+                    {
+                        sum += value;
+                    }
+                }
+                return sum;
+            }
+        }
+
+        [JsonIgnore]
+        public bool IsRanked => Weight != 0;
     }
 }
 

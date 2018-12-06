@@ -15,7 +15,7 @@ namespace Mp3Ranker
     {
         #region Init and Fields
         Library _lib, _session;
-        const string _LIB_PATH = "mp3Ranker.lib.json";
+        const string _LIB_PATH = @"C:\Users\WNOVOA\OneDrive\WarNovFiles\Art\mp3Ranker.lib.json";
         const string _MEM_PATH = "mp3Ranker.mem.json";
         const string _RANK_PATH = @"c:\tmp\rankMp3";
         const string _CAR_PATH = @"c:\tmp\carMp3";
@@ -52,10 +52,21 @@ namespace Mp3Ranker
             if (File.Exists(_MEM_PATH))
             {
                 _sessionPath = File.ReadAllText(_MEM_PATH);
-                BtnContinueSession.Visible = true;
-                BtnContinueSession.Text = $"Continue with {Path.GetFileNameWithoutExtension(_sessionPath)}";
+                if (File.Exists(_sessionPath))
+                {
+                    BtnContinueSession.Visible = true;
+                    BtnContinueSession.Text = $"Continue with {Path.GetFileNameWithoutExtension(_sessionPath)}";
+                }
+                else
+                {
+                    if(MessageBox.Show("Do you want to rebuild a session from the current library?","MP3Ranker",MessageBoxButtons.YesNo)==
+                        DialogResult.Yes)
+                    {
+                        RebuildSession();
+                    }
+                }
             }
-        }
+        } 
 
         private void LoadLibrary()
         {
@@ -139,6 +150,11 @@ namespace Mp3Ranker
         private void SaveLastSessionUsed()
         {
             File.WriteAllText(_MEM_PATH, _sessionPath);
+        }
+
+        private void TmiRebuildSession_Click(object sender, EventArgs e)
+        {
+            RebuildSession();
         }
 
         #endregion

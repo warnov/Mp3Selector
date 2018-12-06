@@ -150,7 +150,35 @@ namespace Mp3Ranker
                 libraryMp3.CopyAttributes(_oldMp3Info);
                 _lib.Save(_LIB_PATH);
             }
-        } 
+        }
+        #endregion
+
+        #region Session Management
+        private void RebuildSession()
+        {
+            if (_lib != null)
+            {
+                if (SfdMain.ShowDialog() == DialogResult.OK)
+                {
+                    _session = new Library();
+                    foreach(var mp3 in _lib.MP3s)
+                    {
+                        if (!mp3.IsRanked) _session.MP3s.Add(mp3);
+                    }
+
+                    //not load all; just create a new one without rankings _session.Load(_LIB_PATH);
+                    _sessionPath = SfdMain.FileName;
+                    _session.Save(_sessionPath);
+                    var sessionName = SetSessionName(_sessionPath);
+                    MessageBox.Show($"Session {sessionName} rebuilt and saved");
+                    SaveLastSessionUsed();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please create a library first");
+            }
+        }
         #endregion
     }
 }
