@@ -121,6 +121,10 @@
             this.label29 = new System.Windows.Forms.Label();
             this.txtListSize = new System.Windows.Forms.TextBox();
             this.BtnClear = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.cbxDrives = new System.Windows.Forms.ComboBox();
+            this.lblDestiny = new System.Windows.Forms.Label();
+            this.btnRefreshDrives = new System.Windows.Forms.Button();
             this.MnuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMPMain)).BeginInit();
             this.SstMain.SuspendLayout();
@@ -202,21 +206,21 @@
             // TmiNewSession
             // 
             this.TmiNewSession.Name = "TmiNewSession";
-            this.TmiNewSession.Size = new System.Drawing.Size(180, 22);
+            this.TmiNewSession.Size = new System.Drawing.Size(114, 22);
             this.TmiNewSession.Text = "&New";
             this.TmiNewSession.Click += new System.EventHandler(this.TmiNewSession_Click);
             // 
             // TmiLoadSession
             // 
             this.TmiLoadSession.Name = "TmiLoadSession";
-            this.TmiLoadSession.Size = new System.Drawing.Size(180, 22);
+            this.TmiLoadSession.Size = new System.Drawing.Size(114, 22);
             this.TmiLoadSession.Text = "&Load";
             this.TmiLoadSession.Click += new System.EventHandler(this.TmiLoadSession_Click);
             // 
             // TmiRebuildSessio
             // 
             this.TmiRebuildSessio.Name = "TmiRebuildSessio";
-            this.TmiRebuildSessio.Size = new System.Drawing.Size(180, 22);
+            this.TmiRebuildSessio.Size = new System.Drawing.Size(114, 22);
             this.TmiRebuildSessio.Text = "&Rebuild";
             this.TmiRebuildSessio.Click += new System.EventHandler(this.TmiRebuildSession_Click);
             // 
@@ -889,7 +893,7 @@
             // 
             // btnCarPlaylist
             // 
-            this.btnCarPlaylist.Location = new System.Drawing.Point(498, 200);
+            this.btnCarPlaylist.Location = new System.Drawing.Point(496, 200);
             this.btnCarPlaylist.Name = "btnCarPlaylist";
             this.btnCarPlaylist.Size = new System.Drawing.Size(75, 23);
             this.btnCarPlaylist.TabIndex = 91;
@@ -951,12 +955,43 @@
             this.BtnClear.UseVisualStyleBackColor = true;
             this.BtnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
+            // cbxDrives
+            // 
+            this.cbxDrives.FormattingEnabled = true;
+            this.cbxDrives.Location = new System.Drawing.Point(375, 191);
+            this.cbxDrives.Name = "cbxDrives";
+            this.cbxDrives.Size = new System.Drawing.Size(109, 21);
+            this.cbxDrives.TabIndex = 98;
+            this.cbxDrives.SelectedIndexChanged += new System.EventHandler(this.CbxDrives_SelectedIndexChanged);
+            // 
+            // lblDestiny
+            // 
+            this.lblDestiny.AutoSize = true;
+            this.lblDestiny.Location = new System.Drawing.Point(372, 175);
+            this.lblDestiny.Name = "lblDestiny";
+            this.lblDestiny.Size = new System.Drawing.Size(42, 13);
+            this.lblDestiny.TabIndex = 99;
+            this.lblDestiny.Text = "Destiny";
+            // 
+            // btnRefreshDrives
+            // 
+            this.btnRefreshDrives.Location = new System.Drawing.Point(375, 213);
+            this.btnRefreshDrives.Name = "btnRefreshDrives";
+            this.btnRefreshDrives.Size = new System.Drawing.Size(109, 23);
+            this.btnRefreshDrives.TabIndex = 100;
+            this.btnRefreshDrives.Text = "Refresh";
+            this.btnRefreshDrives.UseVisualStyleBackColor = true;
+            this.btnRefreshDrives.Click += new System.EventHandler(this.BtnRefreshDrives_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnClear;
             this.ClientSize = new System.Drawing.Size(823, 529);
+            this.Controls.Add(this.btnRefreshDrives);
+            this.Controls.Add(this.lblDestiny);
+            this.Controls.Add(this.cbxDrives);
             this.Controls.Add(this.BtnClear);
             this.Controls.Add(this.txtListSize);
             this.Controls.Add(this.label29);
@@ -1174,6 +1209,10 @@
         private System.Windows.Forms.TextBox txtListSize;
         private System.Windows.Forms.Button BtnClear;
         private System.Windows.Forms.ToolStripMenuItem TmiRebuildSessio;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ComboBox cbxDrives;
+        private System.Windows.Forms.Label lblDestiny;
+        private System.Windows.Forms.Button btnRefreshDrives;
     }
 }
 

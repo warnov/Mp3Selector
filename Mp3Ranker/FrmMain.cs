@@ -15,7 +15,7 @@ namespace Mp3Ranker
     {
         #region Init and Fields
         Library _lib, _session;
-        const string _LIB_PATH = @"C:\Users\WNOVOA\OneDrive\WarNovFiles\Art\mp3Ranker.lib.json";
+        const string _LIB_PATH = @"C:\Users\warnov\OneDrive\WarNovFiles\Art\mp3Ranker.lib.json";
         const string _MEM_PATH = "mp3Ranker.mem.json";
         const string _RANK_PATH = @"c:\tmp\rankMp3";
         const string _CAR_PATH = @"c:\tmp\carMp3";
@@ -25,11 +25,13 @@ namespace Mp3Ranker
         int _index = -1;
         string _oldPath;
         string _sessionPath;
+        string _destinyVolume;
         Mp3Info _oldMp3Info;
 
         public FrmMain()
         {
             InitializeComponent();
+            RefreshDrives();
             SetupLibraries();
         }
 
@@ -59,14 +61,14 @@ namespace Mp3Ranker
                 }
                 else
                 {
-                    if(MessageBox.Show("Do you want to rebuild a session from the current library?","MP3Ranker",MessageBoxButtons.YesNo)==
+                    if (MessageBox.Show("Do you want to rebuild a session from the current library?", "MP3Ranker", MessageBoxButtons.YesNo) ==
                         DialogResult.Yes)
                     {
                         RebuildSession();
                     }
                 }
             }
-        } 
+        }
 
         private void LoadLibrary()
         {
@@ -308,7 +310,21 @@ namespace Mp3Ranker
                  where mp3.IsForCar
                  select mp3;
 
-            CopyList(selectedMp3s.ToList(), _CAR_PATH);
+            DeleteSource();
+            CopyList(selectedMp3s.ToList(), _destinyVolume);
+        }
+
+        private void DeleteSource()
+        {
+            var di = new DirectoryInfo(_destinyVolume);
+            foreach (FileInfo file in di.EnumerateFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.EnumerateDirectories())
+            {
+                dir.Delete(true);
+            }
         }
 
         private void BtnElitePlayList_Click(object sender, EventArgs e)
@@ -343,7 +359,7 @@ namespace Mp3Ranker
         private void FrmMain_KeyPress(object sender, KeyPressEventArgs e)
         {
             var ch = e.KeyChar.ToString().ToLower()[0];
-            switch(ch)
+            switch (ch)
             {
                 case 'c':
                     AdjustBar(TbrCar, 1);
@@ -366,11 +382,11 @@ namespace Mp3Ranker
             }
         }
 
-        private void AdjustBar(TrackBar tbr, int delta, int size=10)
+        private void AdjustBar(TrackBar tbr, int delta, int size = 10)
         {
             var current = tbr.Value;
             var next = current + delta < 0 ? 0 : current + delta;
-            tbr.Value = next > size ? size : next;            
+            tbr.Value = next > size ? size : next;
             Tbr_Scroll(tbr, null);
         }
 
@@ -379,12 +395,38 @@ namespace Mp3Ranker
             ResetTrackBars();
         }
 
+        private void BtnRefreshDrives_Click(object sender, EventArgs e)
+        {
+            RefreshDrives();
+        }
+
+        private void RefreshDrives()
+        {
+            DriveInfo[] drives = DriveInfo.GetDrives();
+            List<string> removableDriveLetters = new List<string>();
+            foreach (DriveInfo drive in drives)
+            {
+                if (drive.DriveType == DriveType.Removable)
+                {
+                    if (drive.IsReady)
+                        removableDriveLetters.Add($"{drive.Name} {drive.VolumeLabel}");
+                }
+            }
+            cbxDrives.DataSource = removableDriveLetters;
+        }
+
+        private void CbxDrives_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            _destinyVolume = cbxDrives.SelectedItem.ToString().Substring(0, 2);
+        }
+
         private void FrmMain_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             var current = TbrRanking.Value;
             var delta = e.Delta > 0 ? 10 : -10;
             var next = current + delta < 0 ? 0 : current + delta;
-            TbrRanking.Value = next > 100 ? 100 : next;            
+            TbrRanking.Value = next > 100 ? 100 : next;
             Tbr_Scroll(TbrRanking, null);
         }
         #endregion
