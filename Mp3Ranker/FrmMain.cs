@@ -421,6 +421,16 @@ namespace Mp3Ranker
             _destinyVolume = cbxDrives.SelectedItem.ToString().Substring(0, 2);
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void FrmMain_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             var current = TbrRanking.Value;
