@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Gma.System.MouseKeyHook;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Mp3Ranker
@@ -33,6 +30,7 @@ namespace Mp3Ranker
             InitializeComponent();
             RefreshDrives();
             SetupLibraries();
+            Subscribe();
         }
 
         private void SetupLibraries()
@@ -183,6 +181,11 @@ namespace Mp3Ranker
 
         private void BtnPause_Click(object sender, EventArgs e)
         {
+            PlayPause();
+        }
+
+        private void PlayPause()
+        {
             if (WMPMain.playState == WMPLib.WMPPlayState.wmppsPlaying)
                 WMPMain.Ctlcontrols.pause();
             else if (WMPMain.playState == WMPLib.WMPPlayState.wmppsPaused)
@@ -199,6 +202,11 @@ namespace Mp3Ranker
 
         private void BtnSkip_Click(object sender, EventArgs e)
         {
+            Skip();
+        }
+
+        private void Skip()
+        {
             _oldPath = _index >= 0 ? CurrentPath : string.Empty;
             _oldMp3Info = CurrentMp3Info;
             _session.MP3s.RemoveAt(_index);
@@ -207,7 +215,6 @@ namespace Mp3Ranker
             _newSong = false;
             ManualStop();
         }
-
 
         private void BtnHop_Click(object sender, EventArgs e)
         {
@@ -438,6 +445,45 @@ namespace Mp3Ranker
             var next = current + delta < 0 ? 0 : current + delta;
             TbrRanking.Value = next > 100 ? 100 : next;
             Tbr_Scroll(TbrRanking, null);
+        }
+        #endregion
+
+        #region GlobalKeyHooks
+        private IKeyboardMouseEvents m_GlobalHook;
+        bool called = false;
+
+        public void Subscribe()
+        {
+            // Note: for the application hook, use the Hook.AppEvents() instead
+            m_GlobalHook = Hook.GlobalEvents();
+            m_GlobalHook.KeyDown += GlobalHook_KeyDown;
+        }
+
+        private void GlobalHook_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.MediaNextTrack)
+            {
+                Skip();
+                called = false;
+            }
+            else if (e.KeyCode == Keys.MediaPlayPause)
+            {
+                PlayPause();
+                called = false;
+            }
+            else if (e.KeyCode == Keys.Subtract)
+            {
+                if(called)
+                {
+                    TbrRanking.Value = 2;
+                    Skip();
+                }                
+                called = false;
+            }
+            else if (e.KeyCode == Keys.Subtract && e.Shift && e.Control)
+            {
+                called = true;
+            }
         }
         #endregion
     }
