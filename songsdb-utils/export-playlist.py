@@ -2,8 +2,8 @@ from azure.cosmos import CosmosClient
 import os
 
 # Replace with your Cosmos DB account information
-url = "https://cdb-mp3ranker.documents.azure.com:443/"
-key = [KEY]
+url = "https://xxxxxxx.documents.azure.com:443/"
+key = "[Cosmos DB key]"
 
 client = CosmosClient(url, credential=key)
 database = client.get_database_client("dbMp3Ranker")
