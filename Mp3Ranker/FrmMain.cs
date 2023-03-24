@@ -15,6 +15,7 @@ namespace Mp3Ranker
         const string _LIB_PATH = @"C:\Users\warnov\OneDrive\WarNovFiles\Art\mp3Ranker.lib.json";
         const string _MEM_PATH = "mp3Ranker.mem.json";
         const string _RANK_PATH = @"c:\tmp\rankMp3";
+        const string _EXPORT_PATH= @"c:\tmp\";
         const string _CAR_PATH = @"c:\tmp\carMp3";
         const string _ELITE_PATH = @"c:\tmp\eliteMp3";
         bool _newSong = false;
@@ -268,47 +269,7 @@ namespace Mp3Ranker
             TssCount.Text = $"{processed}/{total} processed.";
         }
 
-        private void CopyList(List<Mp3Info> selectedMp3s, string destinationPath)
-        {
-            var currentListSize = 0L;
-            long maxListSize = long.TryParse(txtListSize.Text, out maxListSize) ? maxListSize *= 1024 * 1024 : long.MaxValue;
-
-            MessageBox.Show($"{selectedMp3s.Count()} files to choose from!");
-            var idxs = new List<int>();
-            for (int i = 0; i < selectedMp3s.Count(); i++)
-            {
-                idxs.Add(i);
-            }
-
-            var rnd = new Random();
-            var effectiveSongs = 0;
-            while (currentListSize <= maxListSize && effectiveSongs <= selectedMp3s.Count())
-            {
-                var pointer = rnd.Next(0, idxs.Count());
-                var idx = ++idxs[pointer];
-                idxs.RemoveAt(pointer);
-                Mp3Info mp3 = selectedMp3s[pointer];
-                using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
-                {
-                    var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
-
-                    var title = tag.Title != null ? tag.Title.Replace(":", "").
-                        Replace("?", string.Empty).
-                        Replace("*", string.Empty).
-                        Replace("\"", string.Empty).
-                        Replace("/", string.Empty).
-                        Replace("\\", string.Empty) : Path.GetFileName(mp3.Path);
-
-                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
-                    var newPath = $@"{destinationPath}\{++effectiveSongs} - {title}{album}.mp3";
-                    var fi = new FileInfo(mp3.Path);
-
-                    currentListSize += fi.Length;
-                    File.Copy(mp3.Path, newPath, true);
-                }
-            }
-            MessageBox.Show($"{effectiveSongs} songs copied totalizing {currentListSize / 1024 / 1024} MiB");
-        }
+       
 
         private void BtnCarPlayList_Click(object sender, EventArgs e)
         {
@@ -346,13 +307,16 @@ namespace Mp3Ranker
 
         private void BtnRankingPlaylist_Click(object sender, EventArgs e)
         {
-            var rank = nudRanking.Value;
-            var selectedMp3s =
-                 from mp3 in _lib.MP3s
-                 where mp3.MinimumRanked(rank)
-                 select mp3;
-
+            var selectedMp3s = GetRankedList();
             CopyList(selectedMp3s.ToList(), _RANK_PATH);
+        }
+
+
+
+        private void BtnExportPlaylist_Click(object sender, EventArgs e)
+        {
+            var selectedMp3s = GetRankedList();
+            ExportList(selectedMp3s.ToList(), _RANK_PATH);
         }
 
 

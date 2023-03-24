@@ -125,6 +125,7 @@
             this.cbxDrives = new System.Windows.Forms.ComboBox();
             this.lblDestiny = new System.Windows.Forms.Label();
             this.btnRefreshDrives = new System.Windows.Forms.Button();
+            this.btnExportPlaylist = new System.Windows.Forms.Button();
             this.MnuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMPMain)).BeginInit();
             this.SstMain.SuspendLayout();
@@ -179,7 +180,7 @@
             this.TmiNewLibray,
             this.TmiLoadLibrary});
             this.TsmLibrary.Name = "TsmLibrary";
-            this.TsmLibrary.Size = new System.Drawing.Size(75, 20);
+            this.TsmLibrary.Size = new System.Drawing.Size(68, 20);
             this.TsmLibrary.Text = "&Library";
             // 
             // TmiNewLibray
@@ -187,7 +188,7 @@
             this.TmiNewLibray.BackColor = System.Drawing.Color.Lime;
             this.TmiNewLibray.ForeColor = System.Drawing.Color.Black;
             this.TmiNewLibray.Name = "TmiNewLibray";
-            this.TmiNewLibray.Size = new System.Drawing.Size(180, 22);
+            this.TmiNewLibray.Size = new System.Drawing.Size(102, 22);
             this.TmiNewLibray.Text = "&New";
             this.TmiNewLibray.Click += new System.EventHandler(this.TmiNewLibray_Click);
             // 
@@ -195,7 +196,7 @@
             // 
             this.TmiLoadLibrary.BackColor = System.Drawing.Color.Lime;
             this.TmiLoadLibrary.Name = "TmiLoadLibrary";
-            this.TmiLoadLibrary.Size = new System.Drawing.Size(180, 22);
+            this.TmiLoadLibrary.Size = new System.Drawing.Size(102, 22);
             this.TmiLoadLibrary.Text = "&Load";
             // 
             // sessionToolStripMenuItem
@@ -205,14 +206,14 @@
             this.TmiLoadSession,
             this.TmiRebuildSessio});
             this.sessionToolStripMenuItem.Name = "sessionToolStripMenuItem";
-            this.sessionToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
+            this.sessionToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.sessionToolStripMenuItem.Text = "&Session";
             // 
             // TmiNewSession
             // 
             this.TmiNewSession.BackColor = System.Drawing.Color.Lime;
             this.TmiNewSession.Name = "TmiNewSession";
-            this.TmiNewSession.Size = new System.Drawing.Size(180, 22);
+            this.TmiNewSession.Size = new System.Drawing.Size(123, 22);
             this.TmiNewSession.Text = "&New";
             this.TmiNewSession.Click += new System.EventHandler(this.TmiNewSession_Click);
             // 
@@ -220,7 +221,7 @@
             // 
             this.TmiLoadSession.BackColor = System.Drawing.Color.Lime;
             this.TmiLoadSession.Name = "TmiLoadSession";
-            this.TmiLoadSession.Size = new System.Drawing.Size(180, 22);
+            this.TmiLoadSession.Size = new System.Drawing.Size(123, 22);
             this.TmiLoadSession.Text = "&Load";
             this.TmiLoadSession.Click += new System.EventHandler(this.TmiLoadSession_Click);
             // 
@@ -228,7 +229,7 @@
             // 
             this.TmiRebuildSessio.BackColor = System.Drawing.Color.Lime;
             this.TmiRebuildSessio.Name = "TmiRebuildSessio";
-            this.TmiRebuildSessio.Size = new System.Drawing.Size(180, 22);
+            this.TmiRebuildSessio.Size = new System.Drawing.Size(123, 22);
             this.TmiRebuildSessio.Text = "&Rebuild";
             this.TmiRebuildSessio.Click += new System.EventHandler(this.TmiRebuildSession_Click);
             // 
@@ -1040,6 +1041,17 @@
             this.btnRefreshDrives.UseVisualStyleBackColor = true;
             this.btnRefreshDrives.Click += new System.EventHandler(this.BtnRefreshDrives_Click);
             // 
+            // btnExportPlaylist
+            // 
+            this.btnExportPlaylist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportPlaylist.Location = new System.Drawing.Point(719, 172);
+            this.btnExportPlaylist.Name = "btnExportPlaylist";
+            this.btnExportPlaylist.Size = new System.Drawing.Size(92, 23);
+            this.btnExportPlaylist.TabIndex = 101;
+            this.btnExportPlaylist.Text = "&Export Playlist";
+            this.btnExportPlaylist.UseVisualStyleBackColor = true;
+            this.btnExportPlaylist.Click += new System.EventHandler(this.BtnExportPlaylist_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1047,6 +1059,7 @@
             this.BackColor = System.Drawing.Color.Black;
             this.CancelButton = this.BtnClear;
             this.ClientSize = new System.Drawing.Size(823, 529);
+            this.Controls.Add(this.btnExportPlaylist);
             this.Controls.Add(this.btnRefreshDrives);
             this.Controls.Add(this.lblDestiny);
             this.Controls.Add(this.cbxDrives);
@@ -1273,6 +1286,7 @@
         private System.Windows.Forms.ComboBox cbxDrives;
         private System.Windows.Forms.Label lblDestiny;
         private System.Windows.Forms.Button btnRefreshDrives;
+        private System.Windows.Forms.Button btnExportPlaylist;
     }
 }
 

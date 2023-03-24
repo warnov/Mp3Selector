@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using TagLib.Id3v2;
 
@@ -101,7 +105,7 @@ namespace Mp3Ranker
             foreach (var control in Controls.OfType<TrackBar>())
             {
                 var trackBar = (TrackBar)control;
-                short tag = (short)trackBar.Tag;
+                short tag = short.Parse(trackBar.Tag.ToString());
                 if (tag == index)
                 {
                     trackBar.Value = value;
@@ -150,6 +154,105 @@ namespace Mp3Ranker
                 libraryMp3.CopyAttributes(_oldMp3Info);
                 _lib.Save(_LIB_PATH);
             }
+        }
+        #endregion
+
+        #region List Management
+        /// <summary>
+        /// Selects a set of MP3s that have at least the ranking specified in the Numeric updown control of the form. Remember that the ranking is the index 0 in Values.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Mp3Info> GetRankedList()
+        {
+            var rank = nudRanking.Value;
+            var selectedMp3s =
+                 from mp3 in _lib.MP3s
+                 where mp3.MinimumRanked(rank)
+                 select mp3;
+            return selectedMp3s;
+        }
+
+        /// <summary>
+        /// Physycally makes a copy of all the mp3s specified in the selectedMp3s list, to the given path. This is usefuyl for example to physically take a set of songs to the car or an usb.
+        /// </summary>
+        /// <param name="selectedMp3s"></param>
+        /// <param name="destinationPath"></param>
+        private void CopyList(List<Mp3Info> selectedMp3s, string destinationPath)
+        {
+            var currentListSize = 0L;
+            long maxListSize = long.TryParse(txtListSize.Text, out maxListSize) ? maxListSize *= 1024 * 1024 : long.MaxValue;
+
+            MessageBox.Show($"{selectedMp3s.Count()} files to choose from!");
+            var idxs = new List<int>();
+            for (int i = 0; i < selectedMp3s.Count(); i++)
+            {
+                idxs.Add(i);
+            }
+
+            var rnd = new Random();
+            var effectiveSongs = 0;
+            while (currentListSize <= maxListSize && effectiveSongs <= selectedMp3s.Count())
+            {
+                var pointer = rnd.Next(0, idxs.Count());
+                var idx = ++idxs[pointer];
+                idxs.RemoveAt(pointer);
+                Mp3Info mp3 = selectedMp3s[pointer];
+                using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
+                {
+                    var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
+
+                    var title = tag.Title != null ? tag.Title.Replace(":", "").
+                        Replace("?", string.Empty).
+                        Replace("*", string.Empty).
+                        Replace("\"", string.Empty).
+                        Replace("/", string.Empty).
+                        Replace("\\", string.Empty) : Path.GetFileName(mp3.Path);
+
+                    var album = tag.Artists.Length > 0 ? $" - {tag.Artists[0]}" : string.Empty;
+                    var newPath = $@"{destinationPath}\{++effectiveSongs} - {title}{album}.mp3";
+                    var fi = new FileInfo(mp3.Path);
+
+                    currentListSize += fi.Length;
+                    File.Copy(mp3.Path, newPath, true);
+                }
+            }
+            MessageBox.Show($"{effectiveSongs} songs copied totalizing {currentListSize / 1024 / 1024} MiB");
+        }
+
+        /// <summary>
+        /// Creates a playlist text file to be imported in other music services such as spotify or youtube music,
+        /// using the set of songs specified in selectedMp3s. It has the format: Title - Artist
+        /// </summary>
+        /// <param name="selectedMp3s"></param>
+        /// <param name="destinationPath"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void ExportList(List<Mp3Info> selectedMp3s, string destinationPath)
+        {
+            MessageBox.Show($"{selectedMp3s.Count()} files for your playlist!");
+            var sb = new StringBuilder();
+            for (int i = 0; i < selectedMp3s.Count(); i++)
+            {
+                Mp3Info mp3 = selectedMp3s[i];
+                using (TagLib.File MP3 = TagLib.File.Create(mp3.Path))
+                {
+                    var tag = MP3.GetTag(TagLib.TagTypes.Id3v2);
+
+                    var title = tag.Title != null ? tag.Title.Replace(":", "").
+                        Replace("?", string.Empty).
+                        Replace("*", string.Empty).
+                        Replace("\"", string.Empty).
+                        Replace("/", string.Empty).
+                        Replace("\\", string.Empty) : Path.GetFileName(mp3.Path);
+
+                    var artist = tag.Artists.Length > 0 ? tag.Artists[0].ToString() : string.Empty;
+                    sb.AppendLine($"{title} - {artist}");
+                }
+            }
+            File.WriteAllText($"{destinationPath}Mp3Ranker-Playlist.txt", sb.ToString());
+            //Open the file with the default program
+            Process.Start($"{destinationPath}Mp3Ranker-Playlist.txt");
+
+            MessageBox.Show($"Your list is ready!");
         }
         #endregion
 
